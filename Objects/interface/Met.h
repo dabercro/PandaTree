@@ -21,6 +21,7 @@ namespace panda {
 
     virtual TVector2 v() const { TVector2 vec; vec.SetMagPhi(pt, phi); return vec; }
     void setXY(double x, double y) { pt = std::sqrt(x * x + y * y); phi = std::atan2(y, x); }
+    TLorentzVector p4() const { TLorentzVector vec; vec.SetPtEtaPhiM(pt, 0.0, phi, 0.0); return vec; }
 
     Float_t pt{};
     Float_t phi{};
