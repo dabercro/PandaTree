@@ -55,6 +55,8 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   photons.data.matchedGenContainer_ = &genParticles;
   genParticles.data.parentContainer_ = &genParticles;
   jets.data.matchedGenJetContainer_ = &genJets;
+  /* BEGIN CUSTOM EventMonophoton.cc.copy_ctor */
+  /* END CUSTOM */
 }
 
 panda::EventMonophoton&
@@ -99,6 +101,55 @@ panda::EventMonophoton::operator=(EventMonophoton const& _src)
   return *this;
 }
 
+void
+panda::EventMonophoton::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
+{
+  /* BEGIN CUSTOM EventMonophoton.cc.print */
+  if (_level >= 3) {
+    EventMonophoton::dump(_out);
+  }
+  else if (_level == 2) {
+    // debug level
+    EventBase::print(_out, _level);
+
+    _out << "npv = " << npv << std::endl;
+    _out << "npvTrue = " << npvTrue << std::endl;
+    _out << "rho = " << rho << std::endl;
+    _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
+  }
+  else 
+    return;
+  /* END CUSTOM */
+}
+
+void
+panda::EventMonophoton::dump(std::ostream& _out/* = std::cout*/) const
+{
+  EventBase::dump(_out);
+
+  _out << "npv = " << npv << std::endl;
+  _out << "npvTrue = " << npvTrue << std::endl;
+  _out << "rho = " << rho << std::endl;
+  _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
+
+  genReweight.dump(_out);
+  superClusters.dump(_out);
+  electrons.dump(_out);
+  muons.dump(_out);
+  taus.dump(_out);
+  photons.dump(_out);
+  jets.dump(_out);
+  genJets.dump(_out);
+  genParticles.dump(_out);
+  partons.dump(_out);
+  t1Met.dump(_out);
+  rawMet.dump(_out);
+  caloMet.dump(_out);
+  metMuOnlyFix.dump(_out);
+  metNoFix.dump(_out);
+  metFilters.dump(_out);
+
+}
 /*static*/
 panda::utils::BranchList
 panda::EventMonophoton::getListOfBranches()

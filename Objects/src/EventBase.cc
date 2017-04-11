@@ -19,6 +19,8 @@ panda::EventBase::EventBase(EventBase const& _src) :
   std::vector<Object*> myObjects{{&triggers}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
 
+  /* BEGIN CUSTOM EventBase.cc.copy_ctor */
+  /* END CUSTOM */
 }
 
 panda::EventBase&
@@ -41,6 +43,38 @@ panda::EventBase::operator=(EventBase const& _src)
   return *this;
 }
 
+void
+panda::EventBase::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
+{
+  /* BEGIN CUSTOM EventBase.cc.print */
+  if (_level >= 3) {
+    EventBase::dump(_out);
+  }
+  else if (_level == 2) {
+    // debug level
+    _out << "runNumber = " << runNumber << std::endl;
+    _out << "lumiNumber = " << lumiNumber << std::endl;
+    _out << "eventNumber = " << eventNumber << std::endl;
+    _out << "isData = " << isData << std::endl;
+    _out << "weight = " << weight << std::endl;
+  }
+  else
+    return;
+  /* END CUSTOM */
+}
+
+void
+panda::EventBase::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "runNumber = " << runNumber << std::endl;
+  _out << "lumiNumber = " << lumiNumber << std::endl;
+  _out << "eventNumber = " << eventNumber << std::endl;
+  _out << "isData = " << isData << std::endl;
+  _out << "weight = " << weight << std::endl;
+
+  triggers.dump(_out);
+
+}
 /*static*/
 panda::utils::BranchList
 panda::EventBase::getListOfBranches()
@@ -128,7 +162,6 @@ panda::EventBase::doInit_()
 
 
 /* BEGIN CUSTOM EventBase.cc.global */
-
 Bool_t
 panda::EventBase::triggerFired(UInt_t _token) const
 {
@@ -138,5 +171,4 @@ panda::EventBase::triggerFired(UInt_t _token) const
   else
     return false;
 }
-
 /* END CUSTOM */
