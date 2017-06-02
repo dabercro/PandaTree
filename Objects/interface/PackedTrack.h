@@ -1,5 +1,5 @@
-#ifndef PandaTree_Objects_TPPair_h
-#define PandaTree_Objects_TPPair_h
+#ifndef PandaTree_Objects_PackedTrack_h
+#define PandaTree_Objects_PackedTrack_h
 #include "Constants.h"
 #include "../../Framework/interface/Element.h"
 #include "../../Framework/interface/Array.h"
@@ -9,14 +9,16 @@
 
 namespace panda {
 
-  class TPPair : public Element {
+  class PackedTrack : public Element {
   public:
     struct datastore : public Element::datastore {
       datastore() : Element::datastore() {}
       ~datastore() { deallocate(); }
 
-      Float_t* mass{0};
-      Float_t* mass2{0};
+      UShort_t* packedPtError{0};
+      Short_t* packedDxy{0};
+      Short_t* packedDz{0};
+      Short_t* packedDPhi{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -29,26 +31,46 @@ namespace panda {
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef Array<TPPair> array_type;
-    typedef Collection<TPPair> collection_type;
+    typedef Array<PackedTrack> array_type;
+    typedef Collection<PackedTrack> collection_type;
 
     typedef Element base_type;
 
-    TPPair(char const* name = "");
-    TPPair(TPPair const&);
-    TPPair(datastore&, UInt_t idx);
-    ~TPPair();
-    TPPair& operator=(TPPair const&);
+    PackedTrack(char const* name = "");
+    PackedTrack(PackedTrack const&);
+    PackedTrack(datastore&, UInt_t idx);
+    ~PackedTrack();
+    PackedTrack& operator=(PackedTrack const&);
 
-    static char const* typeName() { return "TPPair"; }
+    static char const* typeName() { return "PackedTrack"; }
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    Float_t& mass;
-    Float_t& mass2;
+    void setPtError(double e) { ptError_ = e; packPtError_(); }
+    double ptError() const { unpack_(); return ptError_; }
+    double dxy() const { unpack_(); return dxy_; }
+    double dz() const { unpack_(); return dz_; }
+    double dPhi() const { unpack_(); return dPhi_; }
 
-    /* BEGIN CUSTOM TPPair.h.classdef */
+    UShort_t& packedPtError;
+    Short_t& packedDxy;
+    Short_t& packedDz;
+    Short_t& packedDPhi;
+
+    /* BEGIN CUSTOM PackedTrack.h.classdef */
+  protected:
+    void pack_();
+    void packPtError_();
+    void unpack_() const;
+
+    mutable Double_t ptError_{0.};
+    mutable Double_t dxy_{0.};
+    mutable Double_t dz_{0.};
+    mutable Double_t dPhi_{0.};
+    mutable Bool_t unpacked_{kFALSE};
+
+  public:
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();
@@ -56,19 +78,19 @@ namespace panda {
     void destructor(Bool_t recursive = kFALSE);
 
   protected:
-    TPPair(ArrayBase*);
+    PackedTrack(ArrayBase*);
 
     void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doInit_() override;
   };
 
-  typedef Array<TPPair> TPPairArray;
-  typedef Collection<TPPair> TPPairCollection;
-  typedef Ref<TPPair> TPPairRef;
-  typedef RefVector<TPPair> TPPairRefVector;
+  typedef Array<PackedTrack> PackedTrackArray;
+  typedef Collection<PackedTrack> PackedTrackCollection;
+  typedef Ref<PackedTrack> PackedTrackRef;
+  typedef RefVector<PackedTrack> PackedTrackRefVector;
 
-  /* BEGIN CUSTOM TPPair.h.global */
+  /* BEGIN CUSTOM PackedTrack.h.global */
   /* END CUSTOM */
 
 }

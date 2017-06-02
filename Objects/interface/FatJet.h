@@ -51,6 +51,7 @@ namespace panda {
       Float_t* tau2{0};
       Float_t* tau3{0};
       Float_t* mSD{0};
+      Float_t* mPruned{0};
       Float_t* tau1SD{0};
       Float_t* tau2SD{0};
       Float_t* tau3SD{0};
@@ -116,6 +117,7 @@ namespace panda {
     Float_t& tau2;
     Float_t& tau3;
     Float_t& mSD;
+    Float_t& mPruned;
     Float_t& tau1SD;
     Float_t& tau2SD;
     Float_t& tau3SD;
@@ -141,7 +143,7 @@ namespace panda {
 
     static utils::BranchList getListOfBranches();
 
-    void destructor() override;
+    void destructor(Bool_t recursive = kFALSE);
 
   protected:
     FatJet(ArrayBase*);

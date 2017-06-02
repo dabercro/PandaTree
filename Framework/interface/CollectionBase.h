@@ -15,13 +15,15 @@ namespace panda {
    */
   class CollectionBase : public ContainerBase {
   public:
-    CollectionBase(CollectionBase const& src) : ContainerBase(src), size_(src.size_) {}
+    CollectionBase() = delete;
+    CollectionBase(CollectionBase const& src) = delete;
     ~CollectionBase() {}
 
     Int_t getEntry(TTree&, Long64_t entry) final;
     Int_t fill(TTree&) final;
     void init() final { clear(); }
     UInt_t size() const final { return size_; }
+    Bool_t empty() const { return size_ == 0; }
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
@@ -34,6 +36,14 @@ namespace panda {
      * \param size   New collection size.
      */
     void resize(UInt_t size);
+
+    //! Pre-allocate space for the container.
+    /*!
+     * If the new size is greater than nmax, data will be reallocated, making all references invalid.
+     * 
+     * \param size   New collection allocation size.
+     */
+    void reserve(UInt_t size);
 
     //! Clear the container (set size = 0)
     void clear() { size_ = 0; getData().resizeVectors_(0); }
