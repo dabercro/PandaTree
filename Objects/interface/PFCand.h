@@ -32,8 +32,8 @@ namespace panda {
 
     static TString PTypeName[nPTypes];
 
-    static int q_[nPTypes];
-    static int pdgId_[nPTypes];
+    static int const q_[nPTypes];
+    static int const pdgId_[nPTypes];
 
     struct datastore : public PackedParticle::datastore {
       datastore() : PackedParticle::datastore() {}
@@ -121,7 +121,6 @@ namespace panda {
   protected:
     PFCand(ArrayBase*);
 
-    void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doInit_() override;
   };

@@ -1,26 +1,5 @@
 #include "../interface/UnpackedPFCand.h"
 
-TString panda::UnpackedPFCand::PTypeName[] = {
-  "hp",
-  "hm",
-  "ep",
-  "em",
-  "mup",
-  "mum",
-  "gamma",
-  "h0",
-  "h_HF",
-  "egamma_HF",
-  "Xp",
-  "Xm",
-  "X"
-};
-
-/*static*/
-int panda::UnpackedPFCand::q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
-/*static*/
-int panda::UnpackedPFCand::pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
-
 /*static*/
 panda::utils::BranchList
 panda::UnpackedPFCand::getListOfBranches()
@@ -201,17 +180,6 @@ panda::UnpackedPFCand::operator=(UnpackedPFCand const& _src)
   /* END CUSTOM */
 
   return *this;
-}
-
-void
-panda::UnpackedPFCand::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ParticleM::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "puppiW", &puppiW, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "puppiWNoLep", &puppiWNoLep, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ptype", &ptype, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "vertex_", gStore.getData(this).vertex_, _branches, true);
 }
 
 void
