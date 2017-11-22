@@ -1,18 +1,15 @@
 #define PROG_SIZE 100
 #define DEFAULT_BINS 50
 
-#include <cassert>
+#define MINMAX 1e10
+
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
 #include <iostream>
-#include <map>
-#include <memory>
 #include <set>
-#include <unordered_map>
 #include <string>
 #include <utility>
-#include <limits>
 #include <functional>
 #include <dirent.h>
 #include <sys/stat.h>
@@ -21,7 +18,6 @@
 #include <TROOT.h>
 #include <TError.h>
 
-#include "TObject.h"
 #include "TFile.h"
 #include "TTree.h"
 #include "TH1I.h"
@@ -209,8 +205,8 @@ int main(int argc, char** argv) {
   std::vector<std::pair<float, float>> minimums;
 
   ActionFunc init_minmax = [&](auto index) {
-    minimums.emplace_back(std::make_pair(1e10, 1e10));
-    maximums.emplace_back(std::make_pair(-1e10, -1e10));
+    minimums.emplace_back(std::make_pair(MINMAX, MINMAX));
+    maximums.emplace_back(std::make_pair(-MINMAX, -MINMAX));
   };
 
   // Initialize min/max for every plot
@@ -252,27 +248,40 @@ int main(int argc, char** argv) {
     auto max = maxs.first;
     auto min = mins.first;
 
+    auto are_ints = [](auto& check) {
+      return check.first == floorf(check.first) && check.second == floorf(check.second);
+    };
+
+    // We flag this distrubtion as being possibly made of integer values for binning
+    bool possibly_int = are_ints(maxs) && are_ints(mins);
+
+    auto spread_minmax = [&](auto spread) {
+      max += spread;
+      min -= spread;
+    };
+
     // If the gap between the two lowest minimums is large,
     // maybe don't use the very minimum value
     if (mins.second - min > (max - mins.second) * 0.5) {
 
       // First, we check if there are one, two, or three values, respectively
-      if (max == min || mins.second == max || maxs.second == mins.second) {
+      if (max == min || mins.second == max || maxs.second == mins.second)
         // If that's the case, we just spread out a little for a nice plot
-        max += 1.5;
-        min -= 1.5;
-      }
+        spread_minmax(possibly_int ? 1.5 : 0.00001);
+
       // Otherwise, we bump up things with a negative default (like output of TMVA)
       else if (min < 0)
         min = mins.second;
     }
 
-    // We flag this distrubtion as being possibly made of integer values for binning
-    bool possibly_int = maxs.first - maxs.second > 0.5 && mins.second - mins.first > 0.5;
-
     // If we haven't moved the max, bump it up slightly so max value doesn't go into overflow
-    if (max == maxs.first)
-      max += possibly_int ? 1 : 0.05;
+    if (max == maxs.first) {
+      if (possibly_int) {
+        spread_minmax(0.5);
+      }
+      else
+        max += 0.05;
+    }
 
     // Get the number of bins for the histogram
     auto num_bins = possibly_int ? std::min(int(max - min), DEFAULT_BINS * 2) : DEFAULT_BINS;
