@@ -83,12 +83,19 @@ std::string get_git_tag(std::string repo) {
     head_file >> head >> head;
     head_file.close();
 
-    std::string tag;
-    std::ifstream tag_file((git_dir + "/" + head).data());
-    tag_file >> tag;
-    tag_file.close();
+    auto tag_location = git_dir + "/" + head;
 
-    return tag;
+    if (exists(tag_location.data()) {
+        std::string tag;
+        std::ifstream tag_file(tag_location.data());
+        tag_file >> tag;
+        tag_file.close();
+
+        return tag;
+      }
+
+      // Checkout in Jenkins just saves the commit in HEAD
+      return head;
   }
   std::cout << "No git dir" << std::endl;
   return "";

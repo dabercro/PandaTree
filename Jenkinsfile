@@ -14,9 +14,8 @@ pipeline {
         sh 'if [ ! -d $CMSSW_VERSION ]; then $DOSRC; scramv1 project CMSSW $CMSSW_VERSION; fi'
         sh 'ls $CMSSW_VERSION/src'
         sh 'if [ ! -d $CMSSW_VERSION/src/PandaTree ]; then mkdir $CMSSW_VERSION/src/PandaTree; fi'
-        sh 'for f in $(git ls-files); do if [ "$f" -nt "$CMSSW_VERSION/src/PandaTree/$f" ]; then cp --parents "$f" $CMSSW_VERSION/src/PandaTree; fi; done'
+        sh 'cp --parents $(git ls-files) $CMSSW_VERSION/src/PandaTree'
         sh 'cp --parents .git/HEAD  $CMSSW_VERSION/src/PandaTree'
-        sh 'cp -r .git/refs  $CMSSW_VERSION/src/PandaTree/.git'
         dir ("${env.CMSSW_VERSION}/src") {
             sh 'if [ -d PandaProd ]; then cd PandaProd; git pull; cd ..; else git clone -b $PANDA_PROD_BRANCH $PANDA_PROD_URL; fi'
             sh 'if [ ! -d PhysicsTools ]; then $DOSRC; eval `scramv1 runtime -sh`; PandaProd/Producer/cfg/setuprel.sh; fi'
