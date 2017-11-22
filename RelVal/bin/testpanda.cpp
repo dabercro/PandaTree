@@ -85,7 +85,7 @@ std::string get_git_tag(std::string repo) {
 
     auto tag_location = git_dir + "/" + head;
 
-    if (exists(tag_location.data()) {
+    if (exists(tag_location.data())) {
         std::string tag;
         std::ifstream tag_file(tag_location.data());
         tag_file >> tag;
