@@ -1,5 +1,6 @@
 pipeline {
   agent any
+
   environment {
     SCRAM_ARCH = 'slc6_amd64_gcc530'
     DOSRC = 'source /cvmfs/cms.cern.ch/cmsset_default.sh'
@@ -8,6 +9,7 @@ pipeline {
     PANDA_PROD_BRANCH = 'jenkins'
     TEST_FILES_DIR = '/home/dabercro/cms/cmssw/CMSSW_8_0_29/src/PandaProd/Producer/cfg'
   }
+
   stages {
     stage('Report Start') {
       steps {
@@ -18,14 +20,13 @@ pipeline {
              then
                  # Craft the URL for the github comments API from the PR
                  COMMENT_URL=$(echo $CHANGE_URL | perl -a -F/ -ne 'chomp @F[-1]; print "https://api.github.com/repos/@F[-4]/@F[-3]/issues/@F[-1]/comments"')
-                 echo $COMMENT_URL
-#                 curl -u $USERPASS -X POST -d '{"body": "Starting tests"}' $COMMENT_URL
+                 curl -u $USERPASS -X POST -d '{"body": "Starting tests"}' $COMMENT_URL
              fi
              '''
         }
       }
     }
-/*
+
     stage('Build') {
       steps {
 
@@ -91,8 +92,8 @@ pipeline {
         }
       }
     }
-*/
   }
+
   post {
     success {
       withCredentials([usernameColonPassword(credentialsId: 'mitsidekick', variable: 'USERPASS')]) {
@@ -102,11 +103,13 @@ pipeline {
            then
                # Craft the URL for the github comments API from the PR
                COMMENT_URL=$(echo $CHANGE_URL | perl -a -F/ -ne 'chomp @F[-1]; print "https://api.github.com/repos/@F[-4]/@F[-3]/issues/@F[-1]/comments"')
+               # Lots of escape strings because Jenkins uses this sh string to generate a .sh file...
                curl -u $USERPASS -X POST --data-binary \"{\\\"body\\\": \\\"Tests passed! Plots here:\\n\\n- http://t3serv001.mit.edu/~${USER}/relval/?d=${BUILD_TAG}_data\\n- http://t3serv001.mit.edu/~${USER}/relval/?d=${BUILD_TAG}_mc\\\"}\" $COMMENT_URL
            fi
            '''
       }
     }
+
     failure {
       withCredentials([usernameColonPassword(credentialsId: 'mitsidekick', variable: 'USERPASS')]) {
         sh '''
