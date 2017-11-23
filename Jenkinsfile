@@ -10,8 +10,8 @@ pipeline {
   }
   stages {
     stage('Report Start') {
-      withCredentials([usernameColonPassword(credentialsId: 'mitsidekick', variable: 'USERPASS')]) {
-        steps {
+      steps {
+        withCredentials([usernameColonPassword(credentialsId: 'mitsidekick', variable: 'USERPASS')]) {
           sh '''
              set +x
              if [ ! -z $CHANGE_URL ]
@@ -92,8 +92,8 @@ pipeline {
   }
 
   post {
-    withCredentials([usernameColonPassword(credentialsId: 'mitsidekick', variable: 'USERPASS')]) {
-      success {
+    success {
+      withCredentials([usernameColonPassword(credentialsId: 'mitsidekick', variable: 'USERPASS')]) {
         sh '''
            set +x
            if [ ! -z $CHANGE_URL ]
@@ -109,7 +109,9 @@ Plots here:
            fi
            '''
       }
-      failure {
+    }
+    failure {
+      withCredentials([usernameColonPassword(credentialsId: 'mitsidekick', variable: 'USERPASS')]) {
         sh '''
            set +x
            if [ ! -z $CHANGE_URL ]
