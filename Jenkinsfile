@@ -24,6 +24,7 @@ pipeline {
         }
       }
     }
+/*
     stage('Build') {
       steps {
 
@@ -89,8 +90,8 @@ pipeline {
         }
       }
     }
+*/
   }
-
   post {
     success {
       withCredentials([usernameColonPassword(credentialsId: 'mitsidekick', variable: 'USERPASS')]) {
