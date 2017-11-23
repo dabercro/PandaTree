@@ -11,16 +11,18 @@ pipeline {
   stages {
     stage('Report Start') {
       withCredentials([usernameColonPassword(credentialsId: 'mitsidekick', variable: 'USERPASS')]) {
-        sh '''
-           set +x
-           if [ ! -z $CHANGE_URL ]
-           then
-               # Craft the URL for the github comments API from the PR
-               COMMENT_URL=$(echo $CHANGE_URL | perl -a -F/ -ne 'chomp @F[-1]; print "https://api.github.com/repos/@F[-4]/@F[-3]/issues/@F[-1]/comments"')
-               curl -u $USERPASS -X POST -d '{"body": "Starting tests"}' $COMMENT_URL
-           fi
-           '''
-       }
+        steps {
+          sh '''
+             set +x
+             if [ ! -z $CHANGE_URL ]
+             then
+                 # Craft the URL for the github comments API from the PR
+                 COMMENT_URL=$(echo $CHANGE_URL | perl -a -F/ -ne 'chomp @F[-1]; print "https://api.github.com/repos/@F[-4]/@F[-3]/issues/@F[-1]/comments"')
+                 curl -u $USERPASS -X POST -d '{"body": "Starting tests"}' $COMMENT_URL
+             fi
+             '''
+        }
+      }
     }
     stage('Build') {
       steps {
