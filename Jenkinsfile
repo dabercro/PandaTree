@@ -100,12 +100,7 @@ pipeline {
            then
                # Craft the URL for the github comments API from the PR
                COMMENT_URL=$(echo $CHANGE_URL | perl -a -F/ -ne 'chomp @F[-1]; print "https://api.github.com/repos/@F[-4]/@F[-3]/issues/@F[-1]/comments"')
-               curl -u $USERPASS -X POST -d "{\"body\": \"Tests passed!
-Plots here:
-
-- http://t3serv001/~$USER/relval/?d=${BUILD_TAG}_data
-- http://t3serv001/~$USER/relval/?d=${BUILD_TAG}_mc
-\"}" $COMMENT_URL
+               curl -u $USERPASS -X POST --data-binary "{\"body\": \"Tests passed! Plots here:\n\n- http://t3serv001/~${USER}/relval/?d=${BUILD_TAG}_data\n- http://t3serv001/~${USER}/relval/?d=${BUILD_TAG}_mc\"}" $COMMENT_URL
            fi
            '''
       }
