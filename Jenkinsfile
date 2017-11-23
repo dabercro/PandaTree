@@ -18,7 +18,8 @@ pipeline {
              then
                  # Craft the URL for the github comments API from the PR
                  COMMENT_URL=$(echo $CHANGE_URL | perl -a -F/ -ne 'chomp @F[-1]; print "https://api.github.com/repos/@F[-4]/@F[-3]/issues/@F[-1]/comments"')
-                 curl -u $USERPASS -X POST -d '{"body": "Starting tests"}' $COMMENT_URL
+                 echo $COMMENT_URL
+#                 curl -u $USERPASS -X POST -d '{"body": "Starting tests"}' $COMMENT_URL
              fi
              '''
         }
