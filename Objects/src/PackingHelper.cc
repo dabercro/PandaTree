@@ -1,6 +1,7 @@
 #include "../interface/PackingHelper.h"
 
 #include <cmath>
+#include <cstdlib>
 
 panda::PackingHelper::PackingHelper()
 {
