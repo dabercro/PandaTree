@@ -4,7 +4,7 @@ pipeline {
   environment {
     SCRAM_ARCH = 'slc6_amd64_gcc530'
     DOSRC = 'source /cvmfs/cms.cern.ch/cmsset_default.sh'
-    CMSSW_VERSION = 'CMSSW_8_0_29'
+    CMSSW_VERSION = 'CMSSW_9_2_15'
     PANDA_PROD_USER = 'dabercro'
     PANDA_PROD_BRANCH = 'jenkins-clean'
   }
