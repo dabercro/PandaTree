@@ -487,6 +487,7 @@ r2f1DW/F
 r2f2DW/F
 r5f1DW/F
 r5f5DW/F
+pdfDW/F  // Kept for reading 009 files. Remove me when those aren't used anymore.
 pdfAltDW[100]/F
 genParam[NMAX]/F
 
