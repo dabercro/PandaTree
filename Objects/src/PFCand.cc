@@ -314,6 +314,9 @@ panda::PFCand::dz(TVector3 const& point) const
 }
 
 #include "../interface/PackingHelper.h"
+#include <cstdlib>
+#include <limits>
+#include <type_traits>
 
 void
 panda::PFCand::packMore_()
@@ -325,8 +328,29 @@ panda::PFCand::packMore_()
 void
 panda::PFCand::unpackMore_() const
 {
-  puppiW_ = PackingHelper::singleton().unpack8LogBound(packedPuppiW, -2., 0., 64) * 0.5 + 0.5;
-  puppiWNoLep_ = PackingHelper::singleton().unpack8LogBound(packedPuppiWNoLepDiff + packedPuppiW, -2., 0., 64) * 0.5 + 0.5;
+  /* This is needed if reading PUPPI weights from a MINIAOD file after CMSSW_10_2_4_patch1. 
+   * See this commit https://github.com/ahinzmann/cmssw/commit/85e34d9dfc022d057ce0ffad4650c6c366a5b870
+   * We should probably also change PandaTree to store and expect explicitly bound PUPPI weights someday,
+   * But for now, let's not break 009 and 012.
+   *
+   * It's (unfortunately) the analyzer's responsibility to set the variable below.
+   */
+
+  static bool newPuppi = std::getenv("NEW_PUPPI");
+
+  using packedPuppiType_10_2 = uint8_t;
+  auto boundUnpack = [] (const std::remove_reference<decltype(packedPuppiW)>::type weight) {
+    return static_cast<double>(static_cast<const packedPuppiType_10_2>(weight))/(std::numeric_limits<packedPuppiType_10_2>::max());
+  };
+
+  if (newPuppi) {
+    puppiW_ = boundUnpack(packedPuppiW);
+    puppiWNoLep_ = boundUnpack(packedPuppiWNoLepDiff + packedPuppiW);
+  }
+  else {
+    puppiW_ = PackingHelper::singleton().unpack8LogBound(packedPuppiW, -2., 0., 64) * 0.5 + 0.5;
+    puppiWNoLep_ = PackingHelper::singleton().unpack8LogBound(packedPuppiWNoLepDiff + packedPuppiW, -2., 0., 64) * 0.5 + 0.5;
+  }
 }
 
 void
