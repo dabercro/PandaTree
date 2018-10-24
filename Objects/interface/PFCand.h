@@ -117,7 +117,7 @@ namespace panda {
     static bool newPuppi;
 
   public:
-    void useNewPuppi() { newPuppi = true; }
+    static void useNewPuppi() { newPuppi = true; }
 
     /* END CUSTOM */
 
