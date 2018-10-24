@@ -325,6 +325,9 @@ panda::PFCand::packMore_()
   packedPuppiWNoLepDiff = PackingHelper::singleton().pack8LogBound((puppiWNoLep_ - 0.5) * 2., -2., 0., 64) - packedPuppiW;
 }
 
+// Can be set to true by calling panda::PFCand::useNewPuppi()
+bool panda::PFCand::newPuppi = std::getenv("NEW_PUPPI");
+
 void
 panda::PFCand::unpackMore_() const
 {
@@ -335,8 +338,6 @@ panda::PFCand::unpackMore_() const
    *
    * It's (unfortunately) the analyzer's responsibility to set the variable below.
    */
-
-  static bool newPuppi = std::getenv("NEW_PUPPI");
 
   using packedPuppiType_10_2 = uint8_t;
   auto boundUnpack = [] (const std::remove_reference<decltype(packedPuppiW)>::type weight) {

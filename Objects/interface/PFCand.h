@@ -113,7 +113,12 @@ namespace panda {
     mutable double puppiW_{0.};
     mutable double puppiWNoLep_{0.};
 
+  private:
+    static bool newPuppi;
+
   public:
+    void useNewPuppi() { newPuppi = true; }
+
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();
