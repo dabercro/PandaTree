@@ -328,8 +328,10 @@ panda::PFCand::packMore_()
 // Can be set to true by calling panda::PFCand::useNewPuppi()
 bool panda::PFCand::newPuppi = std::getenv("NEW_PUPPI");
 
-template<typename T> double boundUnpack (const T weight) {
-  return static_cast<double>(static_cast<const T>(weight))/std::numeric_limits<T>::max();
+namespace {
+  template<typename T> double boundUnpack (const T weight) {
+    return static_cast<double>(static_cast<const T>(weight))/std::numeric_limits<T>::max();
+  }
 }
 
 void
