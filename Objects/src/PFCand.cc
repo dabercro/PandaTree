@@ -328,6 +328,10 @@ panda::PFCand::packMore_()
 // Can be set to true by calling panda::PFCand::useNewPuppi()
 bool panda::PFCand::newPuppi = std::getenv("NEW_PUPPI");
 
+template<typename T> double boundUnpack (const T weight) {
+  return static_cast<double>(static_cast<const T>(weight))/std::numeric_limits<T>::max();
+}
+
 void
 panda::PFCand::unpackMore_() const
 {
@@ -336,17 +340,12 @@ panda::PFCand::unpackMore_() const
    * We should probably also change PandaTree to store and expect explicitly bound PUPPI weights someday,
    * But for now, let's not break 009 and 012.
    *
-   * It's (unfortunately) the analyzer's responsibility to set the variable below.
+   * It's (unfortunately) the analyzer's responsibility to set newPuppi
    */
 
-  using packedPuppiType_10_2 = uint8_t;
-  auto boundUnpack = [] (const std::remove_reference<decltype(packedPuppiW)>::type weight) {
-    return static_cast<double>(static_cast<const packedPuppiType_10_2>(weight))/(std::numeric_limits<packedPuppiType_10_2>::max());
-  };
-
   if (newPuppi) {
-    puppiW_ = boundUnpack(packedPuppiW);
-    puppiWNoLep_ = boundUnpack(packedPuppiWNoLepDiff + packedPuppiW);
+    puppiW_ = boundUnpack<uint8_t>(packedPuppiW);
+    puppiWNoLep_ = boundUnpack<int8_t>(packedPuppiWNoLepDiff) + boundUnpack<uint8_t>(packedPuppiW);
   }
   else {
     puppiW_ = PackingHelper::singleton().unpack8LogBound(packedPuppiW, -2., 0., 64) * 0.5 + 0.5;
