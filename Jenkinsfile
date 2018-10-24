@@ -54,7 +54,7 @@ pipeline {
                for f in /mnt/hadoop/scratch/jenkins/panda/$PANDA_PROD_USER/PandaProd/$PANDA_PROD_BRANCH/*
                do
                    BASE=$(echo $f | perl -ne '/\\/([\\w-]+)\\.root/ && print "$1"')
-                   testpanda $f ${JOB_NAME}/${BUILD_NUMBER}/$(tail -n1 $HOME/miniaod/$BASE.txt)
+                   NEW_PUPPI=1 testpanda $f ${JOB_NAME}/${BUILD_NUMBER}/$(tail -n1 $HOME/miniaod/$BASE.txt)
                done
                '''
         }
