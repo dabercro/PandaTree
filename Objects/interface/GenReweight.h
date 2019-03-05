@@ -31,6 +31,7 @@ namespace panda {
     Float_t r2f2DW{};
     Float_t r5f1DW{};
     Float_t r5f5DW{};
+    Float_t pdfDW{}; ///< Kept for reading 009 files. Remove me when those aren't used anymore.
     Float_t pdfAltDW[100]{};
     Float_t genParam[NMAX]{};
 
