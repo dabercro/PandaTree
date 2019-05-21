@@ -25,7 +25,7 @@ namespace panda {
     HLTBits triggers = HLTBits("triggers");
 
     UInt_t runNumber{};
-    UInt_t lumiNumber{};
+    ULong64_t lumiNumber{};
     ULong64_t eventNumber{};
     Bool_t isData{};
     Float_t weight{};
