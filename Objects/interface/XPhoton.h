@@ -6,6 +6,7 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
+#include <array>
 
 namespace panda {
 
@@ -22,21 +23,10 @@ namespace panda {
 
     static TString IDTuneName[nIDTunes];
 
-    static double const chIsoCuts[nIDTunes][2][4];
-    static double const nhIsoCuts[nIDTunes][2][4];
-    static double const phIsoCuts[nIDTunes][2][4];
-    static double const sieieCuts[nIDTunes][2][4];
-    static double const hOverECuts[nIDTunes][2][4];
-
     struct datastore : public Photon::datastore {
       datastore() : Photon::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      */
       /* Photon
       Float_t* pfPt{0};
       Float_t* chIso{0};
@@ -58,6 +48,10 @@ namespace panda {
       Float_t* phiWidth{0};
       Float_t* time{0};
       Float_t* timeSpan{0};
+      Float_t* alphaSeed{0};
+      Float_t* betaSeed{0};
+      Float_t* t0Seed{0};
+      Float_t* ampSeed{0};
       Float_t* regPt{0};
       Float_t* smearedPt{0};
       UShort_t* ix{0};
@@ -144,6 +138,10 @@ namespace panda {
     Float_t& phiWidth;
     Float_t& time;
     Float_t& timeSpan;
+    Float_t& alphaSeed;
+    Float_t& betaSeed;
+    Float_t& t0Seed;
+    Float_t& ampSeed;
     Float_t& regPt;
     Float_t& smearedPt;
     UShort_t& ix;
@@ -156,8 +154,8 @@ namespace panda {
     Bool_t& csafeVeto;
     Bool_t& pfchVeto;
     Ref<SuperCluster> superCluster;
-    Ref<PFCand> matchedPF;
-    Ref<GenParticle> matchedGen;
+    Ref<PFCandBase> matchedPF;
+    Ref<GenParticleBase> matchedGen;
     */
     Float_t& scEta;
     Float_t& scRawPt;
@@ -172,15 +170,15 @@ namespace panda {
     Bool_t (&tightX)[nIDTunes];
     Int_t& matchedGenId;
 
-  protected:
-    /* ParticleP
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    */
-
-  public:
     /* BEGIN CUSTOM XPhoton.h.classdef */
+    typedef std::array<double, 4> SubdetThresholds;
+    typedef std::array<SubdetThresholds, 2> Thresholds;
+    typedef std::array<Thresholds, nIDTunes> IDDefinitions;
+    static IDDefinitions const chIsoCuts;
+    static IDDefinitions const nhIsoCuts;
+    static IDDefinitions const phIsoCuts;
+    static IDDefinitions const sieieCuts;
+    static IDDefinitions const hOverECuts;
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();
