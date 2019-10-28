@@ -1,7 +1,7 @@
 #include "../interface/CollectionBase.h"
 #include "../interface/IOUtils.h"
 
-#include "TList.h"
+#include <sstream>
 
 panda::CollectionBase::~CollectionBase()
 {
@@ -119,7 +119,13 @@ panda::CollectionBase::getEntry(UInt_t _treeId, Long64_t _entry, Bool_t _localEn
 
   // TBranch for size is always the first element of the branches array, because getBranchNames
   // returns name.size first.
-  auto* sizeBranch(branches.at(0));
+  TBranch* sizeBranch{nullptr};
+  try {
+    sizeBranch = branches.at(0);
+  }
+  catch (std::exception& ex) {
+    throw std::runtime_error(("Collection " + name_ + " size branch was not read from the input tree").Data());
+  }
   if (!sizeBranch || sizeBranch->TestBit(kDoNotProcess))
     return 0;
 
