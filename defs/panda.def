@@ -7,6 +7,8 @@
 
 % CONSTANTS
 
+const bool IS_NANO = false;
+
 % OBJECTS
 
 [Particle]

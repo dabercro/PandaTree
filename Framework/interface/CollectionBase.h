@@ -2,6 +2,7 @@
 #define PandaTree_Framework_CollectionBase_h
 
 #include "ContainerBase.h"
+#include "../../Objects/interface/Constants.h"
 
 #include <vector>
 #include <utility>
@@ -86,6 +87,8 @@ namespace panda {
      * Using a vector of pairs instead of a map for the same reason as described in ReaderObject.
      */
     std::vector<std::pair<TTree*, Bool_t>> outputs_{};
+
+    TString size_name_ {IS_NANO ? TString("n") + name_ : name_ + ".size"};
   };
 
 }

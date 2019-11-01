@@ -1,5 +1,6 @@
 #include "../interface/IOUtils.h"
 #include "../interface/ReaderObject.h"
+#include "../../Objects/interface/Constants.h"
 
 #include "TObjArray.h"
 #include "TList.h"
@@ -8,6 +9,10 @@
 
 #include <stdexcept>
 #include <list>
+
+namespace {
+  const TString separator {panda::IS_NANO ? "_" : "."};
+}
 
 panda::utils::BranchName::BranchName(BranchName const& _src) :
   std::vector<TString>(_src),
@@ -23,7 +28,7 @@ panda::utils::BranchName::BranchName(char const* _name)
     name = name(1, name.Length());
   }
 
-  auto* parts(name.Tokenize("."));
+  auto* parts(name.Tokenize(separator));
 
   for (auto* s : *parts)
     emplace_back(s->GetName());
@@ -39,7 +44,7 @@ panda::utils::BranchName::operator TString() const
     name = "!";
 
   for (unsigned iN(0); iN != size() - 1; ++iN)
-    name += (*this)[iN] + ".";
+    name += (*this)[iN] + separator;
 
   name += back();
 
@@ -51,13 +56,16 @@ panda::utils::BranchName::fullName(TString const& _objName/* = ""*/) const
 {
   TString bFullName(*this);
 
-  if (_objName.Length() != 0) {
+  if (bFullName == "size" and IS_NANO)
+    bFullName = TString("n") + _objName;
+
+  else if (_objName.Length() != 0) {
     if (isVeto_) {
       // remove the leading '!'
       bFullName = bFullName(1, bFullName.Length());
     }
     
-    bFullName.Prepend(_objName + ".");
+    bFullName.Prepend(_objName + separator);
 
     if (isVeto_) {
       // and add it to the front

@@ -4,12 +4,11 @@
 #include "TTree.h"
 #include "TString.h"
 #include "Rtypes.h"
-#include "TLorentzVector.h"
-#include "TVector2.h"
-#include <cmath>
 #include <cstring>
 
 namespace panda {
+
+  bool const IS_NANO = true;
 
   /* BEGIN CUSTOM Constants.h.global */
   /* END CUSTOM */

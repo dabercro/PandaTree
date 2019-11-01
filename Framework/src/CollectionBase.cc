@@ -19,14 +19,15 @@ panda::CollectionBase::setStatus(TTree& _tree, utils::BranchList const& _branche
 {
   // If the size branch does not exist, there is nothing to read from this tree.
   // See comments in IOUtils.cc checkStatus for the ordering of function calls here.
-  if (!_tree.GetBranch(name_ + ".size") && _tree.GetTreeNumber() >= 0)
+
+  if (!_tree.GetBranch(size_name_) && _tree.GetTreeNumber() >= 0)
     return;
 
   // If explicitly instructed to turn off size -> turn size false
   if (utils::BranchName("size").vetoed(_branches))
-    _tree.SetBranchStatus(name_ + ".size", false);
+    _tree.SetBranchStatus(size_name_, false);
   else
-    _tree.SetBranchStatus(name_ + ".size", true);
+    _tree.SetBranchStatus(size_name_, true);
 
   getData().setStatus(_tree, name_, _branches);
 }
@@ -36,10 +37,10 @@ panda::CollectionBase::getStatus(TTree& _tree) const
 {
   utils::BranchList blist;
 
-  if (_tree.GetBranchStatus(name_ + ".size"))
-    blist.emplace_back(name_ + ".size");
+  if (_tree.GetBranchStatus(size_name_))
+    blist.emplace_back(size_name_);
   else
-    blist.emplace_back("!" + name_ + ".size");
+    blist.emplace_back("!" + size_name_);
 
   blist += getData().getStatus(_tree, name_);
 
@@ -56,7 +57,7 @@ panda::CollectionBase::getBranchNames(Bool_t _fullName/* = kTRUE*/, Bool_t/* = k
   utils::BranchList blist;
 
   if (_fullName) {
-    blist.emplace_back(name_ + ".size");
+    blist.emplace_back(size_name_);
     blist += getData().getBranchNames(name_);
   }
   else {
@@ -92,7 +93,7 @@ panda::CollectionBase::book(TTree& _tree, utils::BranchList const& _branches/* =
       throw std::runtime_error(("Doubly booking collection " + name_ + " on tree").Data());
   }
 
-  _tree.Branch(name_ + ".size", &size_, "size/i");
+  _tree.Branch(size_name_, &size_, "size/i");
 
   getData().book(_tree, name_, _branches, true);
 

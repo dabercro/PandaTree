@@ -1,0 +1,14 @@
+
+const bool IS_NANO = true;
+
+[Electron]
+pt/F
+eta/F
+phi/F
+mass/F
+
+{Event}
+run/i
+luminosityBlock/i
+event/l
+Electron/ElectronCollection(8)
