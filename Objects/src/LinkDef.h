@@ -1,6 +1,5 @@
 #include "PandaTree/Objects/interface/Electron.h"
 #include "PandaTree/Objects/interface/Event.h"
-#include "PandaTree/Objects/interface/PackingHelper.h"
 
 #ifdef __CLING__
 #pragma link off all globals;
@@ -20,6 +19,5 @@
 #pragma link C++ typedef panda::ElectronRef;
 #pragma link C++ typedef panda::ElectronRefVector;
 #pragma link C++ class panda::Event;
-#pragma link C++ class panda::PackingHelper;
 
 #endif
