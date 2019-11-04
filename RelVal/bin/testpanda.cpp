@@ -181,7 +181,7 @@ int main(int argc, char** argv) {
   //// Open input file and define loop ////
 
   TFile input {argv[1]};
-  TTree* input_tree = static_cast<TTree*>(input.Get("events"));
+  TTree* input_tree = static_cast<TTree*>(input.Get("Events"));
 
   panda::Event event;
   event.setAddress(*input_tree);

@@ -51,11 +51,7 @@ pipeline {
             sh '''
                $DOSRC
                eval `scramv1 runtime -sh`
-               for f in /mnt/hadoop/scratch/jenkins/panda/$PANDA_PROD_USER/PandaProd/$PANDA_PROD_BRANCH/*
-               do
-                   BASE=$(echo $f | perl -ne '/\\/([\\w-]+)\\.root/ && print "$1"')
-                   testpanda $f ${JOB_NAME}/${BUILD_NUMBER}/$(tail -n1 $HOME/miniaod/$BASE.txt)
-               done
+               testpanda /data/t3home000/dabercro/scratch/nano/99031B88-51E4-6845-A025-AD32A333C178.root ${JOB_NAME}/${BUILD_NUMBER}
                '''
         }
       }

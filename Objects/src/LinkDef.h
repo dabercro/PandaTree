@@ -1,3 +1,6 @@
+#include "PandaTree/Objects/interface/Flags.h"
+#include "PandaTree/Objects/interface/Met.h"
+#include "PandaTree/Objects/interface/RecoMet.h"
 #include "PandaTree/Objects/interface/Particle.h"
 #include "PandaTree/Objects/interface/RecoParticle.h"
 #include "PandaTree/Objects/interface/PFParticle.h"
@@ -17,6 +20,9 @@
 #pragma link C++ nestedtypedef;
 #pragma link C++ namespace panda;
 
+#pragma link C++ class panda::Flags;
+#pragma link C++ class panda::Met;
+#pragma link C++ class panda::RecoMet;
 #pragma link C++ class panda::Particle;
 #pragma link C++ class panda::RecoParticle;
 #pragma link C++ class panda::PFParticle;

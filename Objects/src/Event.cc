@@ -3,7 +3,7 @@
 panda::Event::Event() :
   TreeEntry()
 {
-  std::vector<Object*> myObjects{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
+  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
@@ -13,16 +13,24 @@ panda::Event::Event() :
 
 panda::Event::Event(Event const& _src) :
   TreeEntry(_src),
+  Flag(_src.Flag),
   GenPart(_src.GenPart),
   Electron(_src.Electron),
   Muon(_src.Muon),
   Jet(_src.Jet),
   Photon(_src.Photon),
+  GenMET(_src.GenMET),
+  CaloMET(_src.CaloMET),
+  ChsMET(_src.ChsMET),
+  MET(_src.MET),
+  PuppiMET(_src.PuppiMET),
+  RawMET(_src.RawMET),
+  TkMET(_src.TkMET),
   run(_src.run),
   luminosityBlock(_src.luminosityBlock),
   event(_src.event)
 {
-  std::vector<Object*> myObjects{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
+  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
@@ -49,11 +57,19 @@ panda::Event::operator=(Event const& _src)
   luminosityBlock = _src.luminosityBlock;
   event = _src.event;
 
+  Flag = _src.Flag;
   GenPart = _src.GenPart;
   Electron = _src.Electron;
   Muon = _src.Muon;
   Jet = _src.Jet;
   Photon = _src.Photon;
+  GenMET = _src.GenMET;
+  CaloMET = _src.CaloMET;
+  ChsMET = _src.ChsMET;
+  MET = _src.MET;
+  PuppiMET = _src.PuppiMET;
+  RawMET = _src.RawMET;
+  TkMET = _src.TkMET;
 
   return *this;
 }
@@ -73,11 +89,19 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   _out << "luminosityBlock = " << luminosityBlock << std::endl;
   _out << "event = " << event << std::endl;
 
+  Flag.dump(_out);
   GenPart.dump(_out);
   Electron.dump(_out);
   Muon.dump(_out);
   Jet.dump(_out);
   Photon.dump(_out);
+  GenMET.dump(_out);
+  CaloMET.dump(_out);
+  ChsMET.dump(_out);
+  MET.dump(_out);
+  PuppiMET.dump(_out);
+  RawMET.dump(_out);
+  TkMET.dump(_out);
 
 }
 /*static*/
@@ -87,11 +111,19 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   utils::BranchList blist;
   blist += {"run", "luminosityBlock", "event"};
   if (!_direct) {
+    blist += Flags::getListOfBranches().fullNames("Flag");
     blist += GenPart::getListOfBranches().fullNames("GenPart");
     blist += Electron::getListOfBranches().fullNames("Electron");
     blist += Muon::getListOfBranches().fullNames("Muon");
     blist += Jet::getListOfBranches().fullNames("Jet");
     blist += Photon::getListOfBranches().fullNames("Photon");
+    blist += Met::getListOfBranches().fullNames("GenMET");
+    blist += RecoMet::getListOfBranches().fullNames("CaloMET");
+    blist += RecoMet::getListOfBranches().fullNames("ChsMET");
+    blist += RecoMet::getListOfBranches().fullNames("MET");
+    blist += RecoMet::getListOfBranches().fullNames("PuppiMET");
+    blist += RecoMet::getListOfBranches().fullNames("RawMET");
+    blist += RecoMet::getListOfBranches().fullNames("TkMET");
   }
   /* BEGIN CUSTOM Event.cc.getListOfBranches_ */
   /* END CUSTOM */

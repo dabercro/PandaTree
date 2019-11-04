@@ -1,6 +1,41 @@
 
 const bool IS_NANO = true;
 
+[Flags:SINGLE]
+HBHENoiseFilter/O
+HBHENoiseIsoFilter/O
+CSCTightHaloFilter/O
+CSCTightHaloTrkMuUnvetoFilter/O
+CSCTightHalo2015Filter/O
+globalTightHalo2016Filter/O
+globalSuperTightHalo2016Filter/O
+HcalStripHaloFilter/O
+hcalLaserEventFilter/O
+EcalDeadCellTriggerPrimitiveFilter/O
+EcalDeadCellBoundaryEnergyFilter/O
+ecalBadCalibFilter/O
+goodVertices/O
+eeBadScFilter/O
+ecalLaserCorrFilter/O
+trkPOGFilters/O
+chargedHadronTrackResolutionFilter/O
+muonBadTrackFilter/O
+BadChargedCandidateFilter/O
+BadPFMuonFilter/O
+BadChargedCandidateSummer16Filter/O
+BadPFMuonSummer16Filter/O
+trkPOG_manystripclus53X/O
+trkPOG_toomanystripclus53X/O
+trkPOG_logErrorTooManyClusters/O
+METFilters/O
+
+[Met:SINGLE]
+pt/F
+phi/F
+
+[RecoMet>Met]
+sumEt/F
+
 [Particle]
 pt/F
 eta/F
@@ -155,11 +190,19 @@ puId/I
 run/i
 luminosityBlock/i
 event/l
+Flag/Flags
 GenPart/GenPartCollection(256)
 Electron/ElectronCollection(16)
 Muon/MuonCollection(16)
 Jet/JetCollection(32)
 Photon/PhotonCollection(16)
+GenMET/Met
+CaloMET/RecoMet
+ChsMET/RecoMet
+MET/RecoMet
+PuppiMET/RecoMet
+RawMET/RecoMet
+TkMET/RecoMet
 % GenPart.genPartIdxMother->GenPart
 % Electron.jetIdx->Jet
 % Electron.genPartIdx->GenPart
