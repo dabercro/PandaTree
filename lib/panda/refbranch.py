@@ -5,24 +5,25 @@ from physics import PhysicsObject
 class RefBranch(Branch):
     """
     Reference definition. Definition file syntax:
-    <name>/<type>Ref
+    <name>/Ref<<type>>
     References are written as unsigned integers to the trees.
     """
 
     def __init__(self, line):
-        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)Ref(?:|/([!m]+))$')
+        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/Ref\<([^ ]+)\>$')
         self.refname = self.matches.group(1)
         arrdef = self.matches.group(2)
         self.objname = self.matches.group(3)
-        try:
-            objdef = PhysicsObject.get(self.objname)
-        except KeyError:
-            raise Definition.NoMatch()
 
-        if objdef.is_singlet():
-            raise RuntimeError('Cannot create reference to single object ' + objdef.name)
+#        try:
+#            objdef = PhysicsObject.get(self.objname)
+#        except KeyError:
+#            raise Definition.NoMatch()
 
-        modifier = self.matches.group(4)
+#        if objdef.is_singlet():
+#            raise RuntimeError('Cannot create reference to single object ' + objdef.name)
+
+        modifier = None #self.matches.group(4)
         if modifier is None:
             mod = ''
         else:
@@ -174,4 +175,5 @@ class RefBranch(Branch):
             out.writeline('}')
 
     def write_dump(self, out):
+        return
         out.writeline('_out << "{name} = " << {name} << std::endl;'.format(name = self.refname))

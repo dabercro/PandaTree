@@ -3,26 +3,58 @@
 panda::Event::Event() :
   TreeEntry()
 {
-  std::vector<Object*> myObjects{{&Electron}};
+  std::vector<Object*> myObjects{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&Electron}};
+  std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
+
+  GenPart.data.genPartIdxMotherContainer_ = &GenPart;
+  Electron.data.jetIdxContainer_ = &Jet;
+  Electron.data.genPartIdxContainer_ = &GenPart;
+  Electron.data.photonIdxContainer_ = &Photon;
+  Muon.data.jetIdxContainer_ = &Jet;
+  Muon.data.genPartIdxContainer_ = &GenPart;
+  Photon.data.electronIdxContainer_ = &Electron;
+  Photon.data.jetIdxContainer_ = &Jet;
+  Photon.data.genPartIdxContainer_ = &GenPart;
+  Jet.data.electronIdx1Container_ = &Electron;
+  Jet.data.electronIdx2Container_ = &Electron;
+  Jet.data.muonIdx1Container_ = &Muon;
+  Jet.data.muonIdx2Container_ = &Muon;
   /* BEGIN CUSTOM Event.cc.ctor */
   /* END CUSTOM */
 }
 
 panda::Event::Event(Event const& _src) :
   TreeEntry(_src),
+  GenPart(_src.GenPart),
   Electron(_src.Electron),
+  Muon(_src.Muon),
+  Jet(_src.Jet),
+  Photon(_src.Photon),
   run(_src.run),
   luminosityBlock(_src.luminosityBlock),
   event(_src.event)
 {
-  std::vector<Object*> myObjects{{&Electron}};
+  std::vector<Object*> myObjects{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&Electron}};
+  std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
+
+  GenPart.data.genPartIdxMotherContainer_ = &GenPart;
+  Electron.data.jetIdxContainer_ = &Jet;
+  Electron.data.genPartIdxContainer_ = &GenPart;
+  Electron.data.photonIdxContainer_ = &Photon;
+  Muon.data.jetIdxContainer_ = &Jet;
+  Muon.data.genPartIdxContainer_ = &GenPart;
+  Photon.data.electronIdxContainer_ = &Electron;
+  Photon.data.jetIdxContainer_ = &Jet;
+  Photon.data.genPartIdxContainer_ = &GenPart;
+  Jet.data.electronIdx1Container_ = &Electron;
+  Jet.data.electronIdx2Container_ = &Electron;
+  Jet.data.muonIdx1Container_ = &Muon;
+  Jet.data.muonIdx2Container_ = &Muon;
   /* BEGIN CUSTOM Event.cc.copy_ctor */
   /* END CUSTOM */
 }
@@ -45,7 +77,25 @@ panda::Event::operator=(Event const& _src)
   luminosityBlock = _src.luminosityBlock;
   event = _src.event;
 
+  GenPart = _src.GenPart;
   Electron = _src.Electron;
+  Muon = _src.Muon;
+  Jet = _src.Jet;
+  Photon = _src.Photon;
+
+  GenPart.data.genPartIdxMotherContainer_ = &GenPart;
+  Electron.data.jetIdxContainer_ = &Jet;
+  Electron.data.genPartIdxContainer_ = &GenPart;
+  Electron.data.photonIdxContainer_ = &Photon;
+  Muon.data.jetIdxContainer_ = &Jet;
+  Muon.data.genPartIdxContainer_ = &GenPart;
+  Photon.data.electronIdxContainer_ = &Electron;
+  Photon.data.jetIdxContainer_ = &Jet;
+  Photon.data.genPartIdxContainer_ = &GenPart;
+  Jet.data.electronIdx1Container_ = &Electron;
+  Jet.data.electronIdx2Container_ = &Electron;
+  Jet.data.muonIdx1Container_ = &Muon;
+  Jet.data.muonIdx2Container_ = &Muon;
 
   return *this;
 }
@@ -65,7 +115,11 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   _out << "luminosityBlock = " << luminosityBlock << std::endl;
   _out << "event = " << event << std::endl;
 
+  GenPart.dump(_out);
   Electron.dump(_out);
+  Muon.dump(_out);
+  Jet.dump(_out);
+  Photon.dump(_out);
 
 }
 /*static*/
@@ -75,7 +129,11 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   utils::BranchList blist;
   blist += {"run", "luminosityBlock", "event"};
   if (!_direct) {
+    blist += GenPart::getListOfBranches().fullNames("GenPart");
     blist += Electron::getListOfBranches().fullNames("Electron");
+    blist += Muon::getListOfBranches().fullNames("Muon");
+    blist += Jet::getListOfBranches().fullNames("Jet");
+    blist += Photon::getListOfBranches().fullNames("Photon");
   }
   /* BEGIN CUSTOM Event.cc.getListOfBranches_ */
   /* END CUSTOM */

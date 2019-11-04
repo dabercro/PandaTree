@@ -2,7 +2,11 @@
 #define PandaTree_Objects_Event_h
 #include "../../Framework/interface/TreeEntry.h"
 #include "Constants.h"
+#include "GenPart.h"
 #include "Electron.h"
+#include "Muon.h"
+#include "Jet.h"
+#include "Photon.h"
 
 namespace panda {
 
@@ -16,7 +20,11 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    ElectronCollection Electron = ElectronCollection("Electron", 8);
+    GenPartCollection GenPart = GenPartCollection("GenPart", 256);
+    ElectronCollection Electron = ElectronCollection("Electron", 16);
+    MuonCollection Muon = MuonCollection("Muon", 16);
+    JetCollection Jet = JetCollection("Jet", 32);
+    PhotonCollection Photon = PhotonCollection("Photon", 16);
 
     UInt_t run{};
     UInt_t luminosityBlock{};

@@ -112,12 +112,12 @@ class PhysicsObject(Definition, Object):
                 include.write(header)
                 included.append(include.code)
 
-        for branch in self.branches:
-            if hasattr(branch, 'refname'): # is a RefBranch
-                stmt = '#include "{obj}.h"'.format(obj = branch.objname)
-                if stmt not in included:
-                    header.writeline(stmt)
-                    included.append(stmt)
+#        for branch in self.branches:
+#            if hasattr(branch, 'refname'): # is a RefBranch
+#                stmt = '#include "{obj}.h"'.format(obj = branch.objname)
+#                if stmt not in included:
+#                    header.writeline(stmt)
+#                    included.append(stmt)
 
         header.newline()
         header.writeline('namespace {NAMESPACE} {{'.format(NAMESPACE = NAMESPACE))
