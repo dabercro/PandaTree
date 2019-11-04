@@ -26,10 +26,6 @@ namespace panda {
       */
       Int_t* charge{0};
       Int_t* pdgId{0};
-      ContainerBase const* jetIdxContainer_{0};
-      Short_t* jetIdx_{0};
-      ContainerBase const* genPartIdxContainer_{0};
-      Short_t* genPartIdx_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -69,8 +65,6 @@ namespace panda {
     */
     Int_t& charge;
     Int_t& pdgId;
-    Ref<Jet> jetIdx;
-    Ref<GenPart> genPartIdx;
 
     /* BEGIN CUSTOM PFParticle.h.classdef */
     /* END CUSTOM */

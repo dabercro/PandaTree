@@ -6,7 +6,7 @@ panda::PFParticle::getListOfBranches()
 {
   utils::BranchList blist;
   blist += RecoParticle::getListOfBranches();
-  blist += {"charge", "pdgId", "jetIdx_", "genPartIdx_"};
+  blist += {"charge", "pdgId"};
   return blist;
 }
 
@@ -17,8 +17,6 @@ panda::PFParticle::datastore::allocate(UInt_t _nmax)
 
   charge = new Int_t[nmax_];
   pdgId = new Int_t[nmax_];
-  jetIdx_ = new Short_t[nmax_];
-  genPartIdx_ = new Short_t[nmax_];
 }
 
 void
@@ -30,10 +28,6 @@ panda::PFParticle::datastore::deallocate()
   charge = 0;
   delete [] pdgId;
   pdgId = 0;
-  delete [] jetIdx_;
-  jetIdx_ = 0;
-  delete [] genPartIdx_;
-  genPartIdx_ = 0;
 }
 
 void
@@ -43,8 +37,6 @@ panda::PFParticle::datastore::setStatus(TTree& _tree, TString const& _name, util
 
   utils::setStatus(_tree, _name, "charge", _branches);
   utils::setStatus(_tree, _name, "pdgId", _branches);
-  utils::setStatus(_tree, _name, "jetIdx_", _branches);
-  utils::setStatus(_tree, _name, "genPartIdx_", _branches);
 }
 
 panda::utils::BranchList
@@ -54,8 +46,6 @@ panda::PFParticle::datastore::getStatus(TTree& _tree, TString const& _name) cons
 
   blist.push_back(utils::getStatus(_tree, _name, "charge"));
   blist.push_back(utils::getStatus(_tree, _name, "pdgId"));
-  blist.push_back(utils::getStatus(_tree, _name, "jetIdx_"));
-  blist.push_back(utils::getStatus(_tree, _name, "genPartIdx_"));
 
   return blist;
 }
@@ -67,8 +57,6 @@ panda::PFParticle::datastore::setAddress(TTree& _tree, TString const& _name, uti
 
   utils::setAddress(_tree, _name, "charge", charge, _branches, _setStatus);
   utils::setAddress(_tree, _name, "pdgId", pdgId, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "jetIdx_", jetIdx_, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "genPartIdx_", genPartIdx_, _branches, _setStatus);
 }
 
 void
@@ -80,8 +68,6 @@ panda::PFParticle::datastore::book(TTree& _tree, TString const& _name, utils::Br
 
   utils::book(_tree, _name, "charge", size, 'I', charge, _branches);
   utils::book(_tree, _name, "pdgId", size, 'I', pdgId, _branches);
-  utils::book(_tree, _name, "jetIdx_", size, 'S', jetIdx_, _branches);
-  utils::book(_tree, _name, "genPartIdx_", size, 'S', genPartIdx_, _branches);
 }
 
 void
@@ -91,8 +77,6 @@ panda::PFParticle::datastore::releaseTree(TTree& _tree, TString const& _name)
 
   utils::resetAddress(_tree, _name, "charge");
   utils::resetAddress(_tree, _name, "pdgId");
-  utils::resetAddress(_tree, _name, "jetIdx_");
-  utils::resetAddress(_tree, _name, "genPartIdx_");
 }
 
 void
@@ -112,18 +96,14 @@ panda::PFParticle::datastore::getBranchNames(TString const& _name/* = ""*/) cons
 panda::PFParticle::PFParticle(char const* _name/* = ""*/) :
   RecoParticle(new PFParticleArray(1, _name)),
   charge(gStore.getData(this).charge[0]),
-  pdgId(gStore.getData(this).pdgId[0]),
-  jetIdx(gStore.getData(this).jetIdxContainer_, gStore.getData(this).jetIdx_[0]),
-  genPartIdx(gStore.getData(this).genPartIdxContainer_, gStore.getData(this).genPartIdx_[0])
+  pdgId(gStore.getData(this).pdgId[0])
 {
 }
 
 panda::PFParticle::PFParticle(PFParticle const& _src) :
   RecoParticle(new PFParticleArray(1, _src.getName())),
   charge(gStore.getData(this).charge[0]),
-  pdgId(gStore.getData(this).pdgId[0]),
-  jetIdx(gStore.getData(this).jetIdxContainer_, gStore.getData(this).jetIdx_[0]),
-  genPartIdx(gStore.getData(this).genPartIdxContainer_, gStore.getData(this).genPartIdx_[0])
+  pdgId(gStore.getData(this).pdgId[0])
 {
   operator=(_src);
 }
@@ -131,18 +111,14 @@ panda::PFParticle::PFParticle(PFParticle const& _src) :
 panda::PFParticle::PFParticle(datastore& _data, UInt_t _idx) :
   RecoParticle(_data, _idx),
   charge(_data.charge[_idx]),
-  pdgId(_data.pdgId[_idx]),
-  jetIdx(_data.jetIdxContainer_, _data.jetIdx_[_idx]),
-  genPartIdx(_data.genPartIdxContainer_, _data.genPartIdx_[_idx])
+  pdgId(_data.pdgId[_idx])
 {
 }
 
 panda::PFParticle::PFParticle(ArrayBase* _array) :
   RecoParticle(_array),
   charge(gStore.getData(this).charge[0]),
-  pdgId(gStore.getData(this).pdgId[0]),
-  jetIdx(gStore.getData(this).jetIdxContainer_, gStore.getData(this).jetIdx_[0]),
-  genPartIdx(gStore.getData(this).genPartIdxContainer_, gStore.getData(this).genPartIdx_[0])
+  pdgId(gStore.getData(this).pdgId[0])
 {
 }
 
@@ -168,8 +144,6 @@ panda::PFParticle::operator=(PFParticle const& _src)
 
   charge = _src.charge;
   pdgId = _src.pdgId;
-  jetIdx = _src.jetIdx;
-  genPartIdx = _src.genPartIdx;
 
   /* BEGIN CUSTOM PFParticle.cc.operator= */
   /* END CUSTOM */
@@ -184,8 +158,6 @@ panda::PFParticle::doBook_(TTree& _tree, TString const& _name, utils::BranchList
 
   utils::book(_tree, _name, "charge", "", 'I', &charge, _branches);
   utils::book(_tree, _name, "pdgId", "", 'I', &pdgId, _branches);
-  utils::book(_tree, _name, "jetIdx_", "", 'S', gStore.getData(this).jetIdx_, _branches);
-  utils::book(_tree, _name, "genPartIdx_", "", 'S', gStore.getData(this).genPartIdx_, _branches);
 }
 
 void
@@ -195,8 +167,6 @@ panda::PFParticle::doInit_()
 
   charge = 0;
   pdgId = 0;
-  jetIdx.init();
-  genPartIdx.init();
 
   /* BEGIN CUSTOM PFParticle.cc.doInit_ */
   /* END CUSTOM */

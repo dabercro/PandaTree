@@ -13,15 +13,15 @@ cleanmask/b
 [PFParticle>RecoParticle]
 charge/I
 pdgId/I
-jetIdx/Ref<Jet>
-genPartIdx/Ref<GenPart>
+% jetIdx/Ref<Jet>
+% genPartIdx/Ref<GenPart>
 
 [GenPart>Particle]
 pdgId/I
 status/I
 statusFlags/I
-genPartIdxMother/Ref<GenPart>
 genPartFlav/b
+% genPartIdxMother/Ref<GenPart>
 
 [Lepton>PFParticle]
 ip3d/F
@@ -63,7 +63,7 @@ isScEtaEB/O
 isScEtaEE/O
 pixelSeed/O
 electronVeto/O
-electronIdx/Ref<Electron>
+% electronIdx/Ref<Electron>
 
 [Electron>Lepton<EGamma]
 deltaEtaSC/F
@@ -101,7 +101,7 @@ cutBased_Sum16/I
 cutBased_HEEP/O
 convVeto/O
 lostHits/b
-photonIdx/Ref<Photon>
+% photonIdx/Ref<Photon>
 
 [Muon>Lepton]
 pfRelIso04_all/F
@@ -146,10 +146,10 @@ nConstituents/I
 nElectrons/I
 nMuons/I
 puId/I
-electronIdx1/Ref<Electron>
-electronIdx2/Ref<Electron>
-muonIdx1/Ref<Muon>
-muonIdx2/Ref<Muon>
+% electronIdx1/Ref<Electron>
+% electronIdx2/Ref<Electron>
+% muonIdx1/Ref<Muon>
+% muonIdx2/Ref<Muon>
 
 {Event}
 run/i
@@ -160,16 +160,16 @@ Electron/ElectronCollection(16)
 Muon/MuonCollection(16)
 Jet/JetCollection(32)
 Photon/PhotonCollection(16)
-GenPart.genPartIdxMother->GenPart
-Electron.jetIdx->Jet
-Electron.genPartIdx->GenPart
-Electron.photonIdx->Photon
-Muon.jetIdx->Jet
-Muon.genPartIdx->GenPart
-Photon.electronIdx->Electron
-Photon.jetIdx->Jet
-Photon.genPartIdx->GenPart
-Jet.electronIdx1->Electron
-Jet.electronIdx2->Electron
-Jet.muonIdx1->Muon
-Jet.muonIdx2->Muon
+% GenPart.genPartIdxMother->GenPart
+% Electron.jetIdx->Jet
+% Electron.genPartIdx->GenPart
+% Electron.photonIdx->Photon
+% Muon.jetIdx->Jet
+% Muon.genPartIdx->GenPart
+% Photon.electronIdx->Electron
+% Photon.jetIdx->Jet
+% Photon.genPartIdx->GenPart
+% Jet.electronIdx1->Electron
+% Jet.electronIdx2->Electron
+% Jet.muonIdx1->Muon
+% Jet.muonIdx2->Muon

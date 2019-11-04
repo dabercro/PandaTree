@@ -44,14 +44,6 @@ namespace panda {
       Int_t* nElectrons{0};
       Int_t* nMuons{0};
       Int_t* puId{0};
-      ContainerBase const* electronIdx1Container_{0};
-      Short_t* electronIdx1_{0};
-      ContainerBase const* electronIdx2Container_{0};
-      Short_t* electronIdx2_{0};
-      ContainerBase const* muonIdx1Container_{0};
-      Short_t* muonIdx1_{0};
-      ContainerBase const* muonIdx2Container_{0};
-      Short_t* muonIdx2_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -109,10 +101,6 @@ namespace panda {
     Int_t& nElectrons;
     Int_t& nMuons;
     Int_t& puId;
-    Ref<Electron> electronIdx1;
-    Ref<Electron> electronIdx2;
-    Ref<Muon> muonIdx1;
-    Ref<Muon> muonIdx2;
 
     /* BEGIN CUSTOM Jet.h.classdef */
     /* END CUSTOM */

@@ -7,7 +7,7 @@ panda::Electron::getListOfBranches()
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
   blist += EGamma::getListOfBranches();
-  blist += {"deltaEtaSC", "dr03EcalRecHitSumEt", "dr03HcalDepth1TowerSumEt", "dr03TkSumPt", "dr03TkSumPtHEEP", "mvaFall17V1Iso", "mvaFall17V1noIso", "mvaFall17V2Iso", "mvaFall17V2noIso", "mvaSpring16GP", "mvaSpring16HZZ", "mvaFall17V1Iso_WP80", "mvaFall17V1Iso_WP90", "mvaFall17V1Iso_WPL", "mvaFall17V1noIso_WP80", "mvaFall17V1noIso_WP90", "mvaFall17V1noIso_WPL", "mvaFall17V2Iso_WP80", "mvaFall17V2Iso_WP90", "mvaFall17V2Iso_WPL", "mvaFall17V2noIso_WP80", "mvaFall17V2noIso_WP90", "mvaFall17V2noIso_WPL", "mvaSpring16GP_WP80", "mvaSpring16GP_WP90", "mvaSpring16HZZ_WPL", "vidNestedWPBitmapSpring15", "vidNestedWPBitmapSum16", "cutBased_Fall17_V1", "cutBased_HLTPreSel", "cutBased_Spring15", "cutBased_Sum16", "cutBased_HEEP", "convVeto", "lostHits", "photonIdx_"};
+  blist += {"deltaEtaSC", "dr03EcalRecHitSumEt", "dr03HcalDepth1TowerSumEt", "dr03TkSumPt", "dr03TkSumPtHEEP", "mvaFall17V1Iso", "mvaFall17V1noIso", "mvaFall17V2Iso", "mvaFall17V2noIso", "mvaSpring16GP", "mvaSpring16HZZ", "mvaFall17V1Iso_WP80", "mvaFall17V1Iso_WP90", "mvaFall17V1Iso_WPL", "mvaFall17V1noIso_WP80", "mvaFall17V1noIso_WP90", "mvaFall17V1noIso_WPL", "mvaFall17V2Iso_WP80", "mvaFall17V2Iso_WP90", "mvaFall17V2Iso_WPL", "mvaFall17V2noIso_WP80", "mvaFall17V2noIso_WP90", "mvaFall17V2noIso_WPL", "mvaSpring16GP_WP80", "mvaSpring16GP_WP90", "mvaSpring16HZZ_WPL", "vidNestedWPBitmapSpring15", "vidNestedWPBitmapSum16", "cutBased_Fall17_V1", "cutBased_HLTPreSel", "cutBased_Spring15", "cutBased_Sum16", "cutBased_HEEP", "convVeto", "lostHits"};
   return blist;
 }
 
@@ -59,7 +59,6 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   cutBased_HEEP = new Bool_t[nmax_];
   convVeto = new Bool_t[nmax_];
   lostHits = new UChar_t[nmax_];
-  photonIdx_ = new Short_t[nmax_];
 }
 
 void
@@ -153,8 +152,6 @@ panda::Electron::datastore::deallocate()
   convVeto = 0;
   delete [] lostHits;
   lostHits = 0;
-  delete [] photonIdx_;
-  photonIdx_ = 0;
 }
 
 void
@@ -205,7 +202,6 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "cutBased_HEEP", _branches);
   utils::setStatus(_tree, _name, "convVeto", _branches);
   utils::setStatus(_tree, _name, "lostHits", _branches);
-  utils::setStatus(_tree, _name, "photonIdx_", _branches);
 }
 
 panda::utils::BranchList
@@ -256,7 +252,6 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "cutBased_HEEP"));
   blist.push_back(utils::getStatus(_tree, _name, "convVeto"));
   blist.push_back(utils::getStatus(_tree, _name, "lostHits"));
-  blist.push_back(utils::getStatus(_tree, _name, "photonIdx_"));
 
   return blist;
 }
@@ -309,7 +304,6 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "cutBased_HEEP", cutBased_HEEP, _branches, _setStatus);
   utils::setAddress(_tree, _name, "convVeto", convVeto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "lostHits", lostHits, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "photonIdx_", photonIdx_, _branches, _setStatus);
 }
 
 void
@@ -362,7 +356,6 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "cutBased_HEEP", size, 'O', cutBased_HEEP, _branches);
   utils::book(_tree, _name, "convVeto", size, 'O', convVeto, _branches);
   utils::book(_tree, _name, "lostHits", size, 'b', lostHits, _branches);
-  utils::book(_tree, _name, "photonIdx_", size, 'S', photonIdx_, _branches);
 }
 
 void
@@ -413,7 +406,6 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "cutBased_HEEP");
   utils::resetAddress(_tree, _name, "convVeto");
   utils::resetAddress(_tree, _name, "lostHits");
-  utils::resetAddress(_tree, _name, "photonIdx_");
 }
 
 void
@@ -467,8 +459,7 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   cutBased_Sum16(gStore.getData(this).cutBased_Sum16[0]),
   cutBased_HEEP(gStore.getData(this).cutBased_HEEP[0]),
   convVeto(gStore.getData(this).convVeto[0]),
-  lostHits(gStore.getData(this).lostHits[0]),
-  photonIdx(gStore.getData(this).photonIdxContainer_, gStore.getData(this).photonIdx_[0])
+  lostHits(gStore.getData(this).lostHits[0])
 {
 }
 
@@ -509,8 +500,7 @@ panda::Electron::Electron(Electron const& _src) :
   cutBased_Sum16(gStore.getData(this).cutBased_Sum16[0]),
   cutBased_HEEP(gStore.getData(this).cutBased_HEEP[0]),
   convVeto(gStore.getData(this).convVeto[0]),
-  lostHits(gStore.getData(this).lostHits[0]),
-  photonIdx(gStore.getData(this).photonIdxContainer_, gStore.getData(this).photonIdx_[0])
+  lostHits(gStore.getData(this).lostHits[0])
 {
   operator=(_src);
 }
@@ -552,8 +542,7 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   cutBased_Sum16(_data.cutBased_Sum16[_idx]),
   cutBased_HEEP(_data.cutBased_HEEP[_idx]),
   convVeto(_data.convVeto[_idx]),
-  lostHits(_data.lostHits[_idx]),
-  photonIdx(_data.photonIdxContainer_, _data.photonIdx_[_idx])
+  lostHits(_data.lostHits[_idx])
 {
 }
 
@@ -594,8 +583,7 @@ panda::Electron::Electron(ArrayBase* _array) :
   cutBased_Sum16(gStore.getData(this).cutBased_Sum16[0]),
   cutBased_HEEP(gStore.getData(this).cutBased_HEEP[0]),
   convVeto(gStore.getData(this).convVeto[0]),
-  lostHits(gStore.getData(this).lostHits[0]),
-  photonIdx(gStore.getData(this).photonIdxContainer_, gStore.getData(this).photonIdx_[0])
+  lostHits(gStore.getData(this).lostHits[0])
 {
 }
 
@@ -662,7 +650,6 @@ panda::Electron::operator=(Electron const& _src)
   cutBased_HEEP = _src.cutBased_HEEP;
   convVeto = _src.convVeto;
   lostHits = _src.lostHits;
-  photonIdx = _src.photonIdx;
 
   /* BEGIN CUSTOM Electron.cc.operator= */
   /* END CUSTOM */
@@ -718,7 +705,6 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "cutBased_HEEP", "", 'O', &cutBased_HEEP, _branches);
   utils::book(_tree, _name, "convVeto", "", 'O', &convVeto, _branches);
   utils::book(_tree, _name, "lostHits", "", 'b', &lostHits, _branches);
-  utils::book(_tree, _name, "photonIdx_", "", 'S', gStore.getData(this).photonIdx_, _branches);
 }
 
 void
@@ -769,7 +755,6 @@ panda::Electron::doInit_()
   cutBased_HEEP = false;
   convVeto = false;
   lostHits = 0;
-  photonIdx.init();
 
   /* BEGIN CUSTOM Electron.cc.doInit_ */
   /* END CUSTOM */

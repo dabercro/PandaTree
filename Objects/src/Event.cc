@@ -7,20 +7,6 @@ panda::Event::Event() :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
-
-  GenPart.data.genPartIdxMotherContainer_ = &GenPart;
-  Electron.data.jetIdxContainer_ = &Jet;
-  Electron.data.genPartIdxContainer_ = &GenPart;
-  Electron.data.photonIdxContainer_ = &Photon;
-  Muon.data.jetIdxContainer_ = &Jet;
-  Muon.data.genPartIdxContainer_ = &GenPart;
-  Photon.data.electronIdxContainer_ = &Electron;
-  Photon.data.jetIdxContainer_ = &Jet;
-  Photon.data.genPartIdxContainer_ = &GenPart;
-  Jet.data.electronIdx1Container_ = &Electron;
-  Jet.data.electronIdx2Container_ = &Electron;
-  Jet.data.muonIdx1Container_ = &Muon;
-  Jet.data.muonIdx2Container_ = &Muon;
   /* BEGIN CUSTOM Event.cc.ctor */
   /* END CUSTOM */
 }
@@ -41,20 +27,6 @@ panda::Event::Event(Event const& _src) :
   std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
-
-  GenPart.data.genPartIdxMotherContainer_ = &GenPart;
-  Electron.data.jetIdxContainer_ = &Jet;
-  Electron.data.genPartIdxContainer_ = &GenPart;
-  Electron.data.photonIdxContainer_ = &Photon;
-  Muon.data.jetIdxContainer_ = &Jet;
-  Muon.data.genPartIdxContainer_ = &GenPart;
-  Photon.data.electronIdxContainer_ = &Electron;
-  Photon.data.jetIdxContainer_ = &Jet;
-  Photon.data.genPartIdxContainer_ = &GenPart;
-  Jet.data.electronIdx1Container_ = &Electron;
-  Jet.data.electronIdx2Container_ = &Electron;
-  Jet.data.muonIdx1Container_ = &Muon;
-  Jet.data.muonIdx2Container_ = &Muon;
   /* BEGIN CUSTOM Event.cc.copy_ctor */
   /* END CUSTOM */
 }
@@ -82,20 +54,6 @@ panda::Event::operator=(Event const& _src)
   Muon = _src.Muon;
   Jet = _src.Jet;
   Photon = _src.Photon;
-
-  GenPart.data.genPartIdxMotherContainer_ = &GenPart;
-  Electron.data.jetIdxContainer_ = &Jet;
-  Electron.data.genPartIdxContainer_ = &GenPart;
-  Electron.data.photonIdxContainer_ = &Photon;
-  Muon.data.jetIdxContainer_ = &Jet;
-  Muon.data.genPartIdxContainer_ = &GenPart;
-  Photon.data.electronIdxContainer_ = &Electron;
-  Photon.data.jetIdxContainer_ = &Jet;
-  Photon.data.genPartIdxContainer_ = &GenPart;
-  Jet.data.electronIdx1Container_ = &Electron;
-  Jet.data.electronIdx2Container_ = &Electron;
-  Jet.data.muonIdx1Container_ = &Muon;
-  Jet.data.muonIdx2Container_ = &Muon;
 
   return *this;
 }

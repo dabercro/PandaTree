@@ -7,7 +7,7 @@ panda::Photon::getListOfBranches()
   utils::BranchList blist;
   blist += PFParticle::getListOfBranches();
   blist += EGamma::getListOfBranches();
-  blist += {"mvaID", "mvaID17", "pfRelIso03_all", "pfRelIso03_chg", "cutBased17Bitmap", "mvaID17_WP80", "mvaID17_WP90", "mvaID_WP80", "mvaID_WP90", "isScEtaEB", "isScEtaEE", "pixelSeed", "electronVeto", "electronIdx_"};
+  blist += {"mvaID", "mvaID17", "pfRelIso03_all", "pfRelIso03_chg", "cutBased17Bitmap", "mvaID17_WP80", "mvaID17_WP90", "mvaID_WP80", "mvaID_WP90", "isScEtaEB", "isScEtaEE", "pixelSeed", "electronVeto"};
   return blist;
 }
 
@@ -37,7 +37,6 @@ panda::Photon::datastore::allocate(UInt_t _nmax)
   isScEtaEE = new Bool_t[nmax_];
   pixelSeed = new Bool_t[nmax_];
   electronVeto = new Bool_t[nmax_];
-  electronIdx_ = new Short_t[nmax_];
 }
 
 void
@@ -87,8 +86,6 @@ panda::Photon::datastore::deallocate()
   pixelSeed = 0;
   delete [] electronVeto;
   electronVeto = 0;
-  delete [] electronIdx_;
-  electronIdx_ = 0;
 }
 
 void
@@ -117,7 +114,6 @@ panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "isScEtaEE", _branches);
   utils::setStatus(_tree, _name, "pixelSeed", _branches);
   utils::setStatus(_tree, _name, "electronVeto", _branches);
-  utils::setStatus(_tree, _name, "electronIdx_", _branches);
 }
 
 panda::utils::BranchList
@@ -146,7 +142,6 @@ panda::Photon::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "isScEtaEE"));
   blist.push_back(utils::getStatus(_tree, _name, "pixelSeed"));
   blist.push_back(utils::getStatus(_tree, _name, "electronVeto"));
-  blist.push_back(utils::getStatus(_tree, _name, "electronIdx_"));
 
   return blist;
 }
@@ -177,7 +172,6 @@ panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::
   utils::setAddress(_tree, _name, "isScEtaEE", isScEtaEE, _branches, _setStatus);
   utils::setAddress(_tree, _name, "pixelSeed", pixelSeed, _branches, _setStatus);
   utils::setAddress(_tree, _name, "electronVeto", electronVeto, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "electronIdx_", electronIdx_, _branches, _setStatus);
 }
 
 void
@@ -208,7 +202,6 @@ panda::Photon::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "isScEtaEE", size, 'O', isScEtaEE, _branches);
   utils::book(_tree, _name, "pixelSeed", size, 'O', pixelSeed, _branches);
   utils::book(_tree, _name, "electronVeto", size, 'O', electronVeto, _branches);
-  utils::book(_tree, _name, "electronIdx_", size, 'S', electronIdx_, _branches);
 }
 
 void
@@ -237,7 +230,6 @@ panda::Photon::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "isScEtaEE");
   utils::resetAddress(_tree, _name, "pixelSeed");
   utils::resetAddress(_tree, _name, "electronVeto");
-  utils::resetAddress(_tree, _name, "electronIdx_");
 }
 
 void
@@ -269,8 +261,7 @@ panda::Photon::Photon(char const* _name/* = ""*/) :
   isScEtaEB(gStore.getData(this).isScEtaEB[0]),
   isScEtaEE(gStore.getData(this).isScEtaEE[0]),
   pixelSeed(gStore.getData(this).pixelSeed[0]),
-  electronVeto(gStore.getData(this).electronVeto[0]),
-  electronIdx(gStore.getData(this).electronIdxContainer_, gStore.getData(this).electronIdx_[0])
+  electronVeto(gStore.getData(this).electronVeto[0])
 {
 }
 
@@ -289,8 +280,7 @@ panda::Photon::Photon(Photon const& _src) :
   isScEtaEB(gStore.getData(this).isScEtaEB[0]),
   isScEtaEE(gStore.getData(this).isScEtaEE[0]),
   pixelSeed(gStore.getData(this).pixelSeed[0]),
-  electronVeto(gStore.getData(this).electronVeto[0]),
-  electronIdx(gStore.getData(this).electronIdxContainer_, gStore.getData(this).electronIdx_[0])
+  electronVeto(gStore.getData(this).electronVeto[0])
 {
   operator=(_src);
 }
@@ -310,8 +300,7 @@ panda::Photon::Photon(datastore& _data, UInt_t _idx) :
   isScEtaEB(_data.isScEtaEB[_idx]),
   isScEtaEE(_data.isScEtaEE[_idx]),
   pixelSeed(_data.pixelSeed[_idx]),
-  electronVeto(_data.electronVeto[_idx]),
-  electronIdx(_data.electronIdxContainer_, _data.electronIdx_[_idx])
+  electronVeto(_data.electronVeto[_idx])
 {
 }
 
@@ -330,8 +319,7 @@ panda::Photon::Photon(ArrayBase* _array) :
   isScEtaEB(gStore.getData(this).isScEtaEB[0]),
   isScEtaEE(gStore.getData(this).isScEtaEE[0]),
   pixelSeed(gStore.getData(this).pixelSeed[0]),
-  electronVeto(gStore.getData(this).electronVeto[0]),
-  electronIdx(gStore.getData(this).electronIdxContainer_, gStore.getData(this).electronIdx_[0])
+  electronVeto(gStore.getData(this).electronVeto[0])
 {
 }
 
@@ -376,7 +364,6 @@ panda::Photon::operator=(Photon const& _src)
   isScEtaEE = _src.isScEtaEE;
   pixelSeed = _src.pixelSeed;
   electronVeto = _src.electronVeto;
-  electronIdx = _src.electronIdx;
 
   /* BEGIN CUSTOM Photon.cc.operator= */
   /* END CUSTOM */
@@ -410,7 +397,6 @@ panda::Photon::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "isScEtaEE", "", 'O', &isScEtaEE, _branches);
   utils::book(_tree, _name, "pixelSeed", "", 'O', &pixelSeed, _branches);
   utils::book(_tree, _name, "electronVeto", "", 'O', &electronVeto, _branches);
-  utils::book(_tree, _name, "electronIdx_", "", 'S', gStore.getData(this).electronIdx_, _branches);
 }
 
 void
@@ -439,7 +425,6 @@ panda::Photon::doInit_()
   isScEtaEE = false;
   pixelSeed = false;
   electronVeto = false;
-  electronIdx.init();
 
   /* BEGIN CUSTOM Photon.cc.doInit_ */
   /* END CUSTOM */

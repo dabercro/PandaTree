@@ -24,8 +24,6 @@ namespace panda {
       Int_t* pdgId{0};
       Int_t* status{0};
       Int_t* statusFlags{0};
-      ContainerBase const* genPartIdxMotherContainer_{0};
-      Short_t* genPartIdxMother_{0};
       UChar_t* genPartFlav{0};
 
       void allocate(UInt_t n) override;
@@ -64,7 +62,6 @@ namespace panda {
     Int_t& pdgId;
     Int_t& status;
     Int_t& statusFlags;
-    Ref<GenPart> genPartIdxMother;
     UChar_t& genPartFlav;
 
     /* BEGIN CUSTOM GenPart.h.classdef */

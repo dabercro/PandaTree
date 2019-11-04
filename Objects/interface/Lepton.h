@@ -27,10 +27,6 @@ namespace panda {
       /* PFParticle
       Int_t* charge{0};
       Int_t* pdgId{0};
-      ContainerBase const* jetIdxContainer_{0};
-      Short_t* jetIdx_{0};
-      ContainerBase const* genPartIdxContainer_{0};
-      Short_t* genPartIdx_{0};
       */
       Float_t* ip3d{0};
       Float_t* sip3d{0};
@@ -86,8 +82,6 @@ namespace panda {
     /* PFParticle
     Int_t& charge;
     Int_t& pdgId;
-    Ref<Jet> jetIdx;
-    Ref<GenPart> genPartIdx;
     */
     Float_t& ip3d;
     Float_t& sip3d;
