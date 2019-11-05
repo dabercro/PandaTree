@@ -44,6 +44,10 @@ namespace panda {
       Int_t* nElectrons{0};
       Int_t* nMuons{0};
       Int_t* puId{0};
+      Int_t* electronIdx1{0};
+      Int_t* electronIdx2{0};
+      Int_t* muonIdx1{0};
+      Int_t* muonIdx2{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -101,6 +105,10 @@ namespace panda {
     Int_t& nElectrons;
     Int_t& nMuons;
     Int_t& puId;
+    Int_t& electronIdx1;
+    Int_t& electronIdx2;
+    Int_t& muonIdx1;
+    Int_t& muonIdx2;
 
     /* BEGIN CUSTOM Jet.h.classdef */
     /* END CUSTOM */

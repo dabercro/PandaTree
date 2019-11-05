@@ -2,6 +2,8 @@
 #include "PandaTree/Objects/interface/Met.h"
 #include "PandaTree/Objects/interface/RecoMet.h"
 #include "PandaTree/Objects/interface/Particle.h"
+#include "PandaTree/Objects/interface/SecondaryVertex.h"
+#include "PandaTree/Objects/interface/PrimaryVertex.h"
 #include "PandaTree/Objects/interface/RecoParticle.h"
 #include "PandaTree/Objects/interface/PFParticle.h"
 #include "PandaTree/Objects/interface/GenPart.h"
@@ -10,6 +12,8 @@
 #include "PandaTree/Objects/interface/Electron.h"
 #include "PandaTree/Objects/interface/Muon.h"
 #include "PandaTree/Objects/interface/Jet.h"
+#include "PandaTree/Objects/interface/Triggers.h"
+#include "PandaTree/Objects/interface/BReweight.h"
 #include "PandaTree/Objects/interface/Event.h"
 
 #ifdef __CLING__
@@ -24,6 +28,8 @@
 #pragma link C++ class panda::Met;
 #pragma link C++ class panda::RecoMet;
 #pragma link C++ class panda::Particle;
+#pragma link C++ class panda::SecondaryVertex;
+#pragma link C++ class panda::PrimaryVertex;
 #pragma link C++ class panda::RecoParticle;
 #pragma link C++ class panda::PFParticle;
 #pragma link C++ class panda::GenPart;
@@ -32,10 +38,16 @@
 #pragma link C++ class panda::Electron;
 #pragma link C++ class panda::Muon;
 #pragma link C++ class panda::Jet;
+#pragma link C++ class panda::Triggers;
+#pragma link C++ class panda::BReweight;
 #pragma link C++ class panda::Array<panda::Particle>;
 #pragma link C++ class panda::Collection<panda::Particle>;
 #pragma link C++ class panda::Ref<panda::Particle>;
 #pragma link C++ class panda::RefVector<panda::Particle>;
+#pragma link C++ class panda::Array<panda::SecondaryVertex>;
+#pragma link C++ class panda::Collection<panda::SecondaryVertex>;
+#pragma link C++ class panda::Ref<panda::SecondaryVertex>;
+#pragma link C++ class panda::RefVector<panda::SecondaryVertex>;
 #pragma link C++ class panda::Array<panda::RecoParticle>;
 #pragma link C++ class panda::Collection<panda::RecoParticle>;
 #pragma link C++ class panda::Ref<panda::RecoParticle>;
@@ -72,6 +84,10 @@
 #pragma link C++ typedef panda::ParticleCollection;
 #pragma link C++ typedef panda::ParticleRef;
 #pragma link C++ typedef panda::ParticleRefVector;
+#pragma link C++ typedef panda::SecondaryVertexArray;
+#pragma link C++ typedef panda::SecondaryVertexCollection;
+#pragma link C++ typedef panda::SecondaryVertexRef;
+#pragma link C++ typedef panda::SecondaryVertexRefVector;
 #pragma link C++ typedef panda::RecoParticleArray;
 #pragma link C++ typedef panda::RecoParticleCollection;
 #pragma link C++ typedef panda::RecoParticleRef;

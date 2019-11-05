@@ -27,6 +27,8 @@ namespace panda {
       /* PFParticle
       Int_t* charge{0};
       Int_t* pdgId{0};
+      Int_t* jetIdx{0};
+      Int_t* genPartIdx{0};
       */
       /* Lepton
       Float_t* ip3d{0};
@@ -104,6 +106,8 @@ namespace panda {
     /* PFParticle
     Int_t& charge;
     Int_t& pdgId;
+    Int_t& jetIdx;
+    Int_t& genPartIdx;
     */
     /* Lepton
     Float_t& ip3d;

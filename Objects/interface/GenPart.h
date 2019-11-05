@@ -25,6 +25,7 @@ namespace panda {
       Int_t* status{0};
       Int_t* statusFlags{0};
       UChar_t* genPartFlav{0};
+      Int_t* genPartIdxMother{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -63,6 +64,7 @@ namespace panda {
     Int_t& status;
     Int_t& statusFlags;
     UChar_t& genPartFlav;
+    Int_t& genPartIdxMother;
 
     /* BEGIN CUSTOM GenPart.h.classdef */
     /* END CUSTOM */

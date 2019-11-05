@@ -28,6 +28,8 @@ namespace panda {
       /* PFParticle
       Int_t* charge{0};
       Int_t* pdgId{0};
+      Int_t* jetIdx{0};
+      Int_t* genPartIdx{0};
       */
       /* Lepton
       Float_t* ip3d{0};
@@ -90,6 +92,7 @@ namespace panda {
       Bool_t* cutBased_HEEP{0};
       Bool_t* convVeto{0};
       UChar_t* lostHits{0};
+      Int_t* photonIdx{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -130,6 +133,8 @@ namespace panda {
     /* PFParticle
     Int_t& charge;
     Int_t& pdgId;
+    Int_t& jetIdx;
+    Int_t& genPartIdx;
     */
     /* Lepton
     Float_t& ip3d;
@@ -192,6 +197,7 @@ namespace panda {
     Bool_t& cutBased_HEEP;
     Bool_t& convVeto;
     UChar_t& lostHits;
+    Int_t& photonIdx;
 
     /* BEGIN CUSTOM Electron.h.classdef */
     /* END CUSTOM */

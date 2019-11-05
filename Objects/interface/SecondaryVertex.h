@@ -1,7 +1,7 @@
-#ifndef PandaTree_Objects_PFParticle_h
-#define PandaTree_Objects_PFParticle_h
+#ifndef PandaTree_Objects_SecondaryVertex_h
+#define PandaTree_Objects_SecondaryVertex_h
 #include "Constants.h"
-#include "RecoParticle.h"
+#include "Particle.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,10 +9,10 @@
 
 namespace panda {
 
-  class PFParticle : public RecoParticle {
+  class SecondaryVertex : public Particle {
   public:
-    struct datastore : public RecoParticle::datastore {
-      datastore() : RecoParticle::datastore() {}
+    struct datastore : public Particle::datastore {
+      datastore() : Particle::datastore() {}
       ~datastore() { deallocate(); }
 
       /* Particle
@@ -21,13 +21,14 @@ namespace panda {
       Float_t* phi{0};
       Float_t* mass{0};
       */
-      /* RecoParticle
-      UChar_t* cleanmask{0};
-      */
-      Int_t* charge{0};
-      Int_t* pdgId{0};
-      Int_t* jetIdx{0};
-      Int_t* genPartIdx{0};
+      Float_t* dlen{0};
+      Float_t* dlenSig{0};
+      Float_t* pAngle{0};
+      Float_t* chi2{0};
+      Float_t* ndof{0};
+      Float_t* x{0};
+      Float_t* y{0};
+      Float_t* z{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -40,18 +41,18 @@ namespace panda {
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef Array<PFParticle> array_type;
-    typedef Collection<PFParticle> collection_type;
+    typedef Array<SecondaryVertex> array_type;
+    typedef Collection<SecondaryVertex> collection_type;
 
-    typedef RecoParticle base_type;
+    typedef Particle base_type;
 
-    PFParticle(char const* name = "");
-    PFParticle(PFParticle const&);
-    PFParticle(datastore&, UInt_t idx);
-    ~PFParticle();
-    PFParticle& operator=(PFParticle const&);
+    SecondaryVertex(char const* name = "");
+    SecondaryVertex(SecondaryVertex const&);
+    SecondaryVertex(datastore&, UInt_t idx);
+    ~SecondaryVertex();
+    SecondaryVertex& operator=(SecondaryVertex const&);
 
-    static char const* typeName() { return "PFParticle"; }
+    static char const* typeName() { return "SecondaryVertex"; }
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
@@ -62,15 +63,16 @@ namespace panda {
     Float_t& phi;
     Float_t& mass;
     */
-    /* RecoParticle
-    UChar_t& cleanmask;
-    */
-    Int_t& charge;
-    Int_t& pdgId;
-    Int_t& jetIdx;
-    Int_t& genPartIdx;
+    Float_t& dlen;
+    Float_t& dlenSig;
+    Float_t& pAngle;
+    Float_t& chi2;
+    Float_t& ndof;
+    Float_t& x;
+    Float_t& y;
+    Float_t& z;
 
-    /* BEGIN CUSTOM PFParticle.h.classdef */
+    /* BEGIN CUSTOM SecondaryVertex.h.classdef */
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();
@@ -78,18 +80,18 @@ namespace panda {
     void destructor(Bool_t recursive = kFALSE);
 
   protected:
-    PFParticle(ArrayBase*);
+    SecondaryVertex(ArrayBase*);
 
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doInit_() override;
   };
 
-  typedef Array<PFParticle> PFParticleArray;
-  typedef Collection<PFParticle> PFParticleCollection;
-  typedef Ref<PFParticle> PFParticleRef;
-  typedef RefVector<PFParticle> PFParticleRefVector;
+  typedef Array<SecondaryVertex> SecondaryVertexArray;
+  typedef Collection<SecondaryVertex> SecondaryVertexCollection;
+  typedef Ref<SecondaryVertex> SecondaryVertexRef;
+  typedef RefVector<SecondaryVertex> SecondaryVertexRefVector;
 
-  /* BEGIN CUSTOM PFParticle.h.global */
+  /* BEGIN CUSTOM SecondaryVertex.h.global */
   /* END CUSTOM */
 
 }

@@ -3,9 +3,9 @@
 panda::Event::Event() :
   TreeEntry()
 {
-  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET}};
+  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &PV, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET, &HLT, &btagReweight}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
+  std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon, &SV}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
   /* BEGIN CUSTOM Event.cc.ctor */
   /* END CUSTOM */
@@ -19,6 +19,8 @@ panda::Event::Event(Event const& _src) :
   Muon(_src.Muon),
   Jet(_src.Jet),
   Photon(_src.Photon),
+  SV(_src.SV),
+  PV(_src.PV),
   GenMET(_src.GenMET),
   CaloMET(_src.CaloMET),
   ChsMET(_src.ChsMET),
@@ -26,13 +28,19 @@ panda::Event::Event(Event const& _src) :
   PuppiMET(_src.PuppiMET),
   RawMET(_src.RawMET),
   TkMET(_src.TkMET),
+  HLT(_src.HLT),
+  btagReweight(_src.btagReweight),
   run(_src.run),
   luminosityBlock(_src.luminosityBlock),
-  event(_src.event)
+  event(_src.event),
+  fixedGridRhoFastjetAll(_src.fixedGridRhoFastjetAll),
+  fixedGridRhoFastjetCentralCalo(_src.fixedGridRhoFastjetCentralCalo),
+  fixedGridRhoFastjetCentralNeutral(_src.fixedGridRhoFastjetCentralNeutral),
+  genWeight(_src.genWeight)
 {
-  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET}};
+  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &PV, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET, &HLT, &btagReweight}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon}};
+  std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon, &SV}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   /* BEGIN CUSTOM Event.cc.copy_ctor */
@@ -56,6 +64,10 @@ panda::Event::operator=(Event const& _src)
   run = _src.run;
   luminosityBlock = _src.luminosityBlock;
   event = _src.event;
+  fixedGridRhoFastjetAll = _src.fixedGridRhoFastjetAll;
+  fixedGridRhoFastjetCentralCalo = _src.fixedGridRhoFastjetCentralCalo;
+  fixedGridRhoFastjetCentralNeutral = _src.fixedGridRhoFastjetCentralNeutral;
+  genWeight = _src.genWeight;
 
   Flag = _src.Flag;
   GenPart = _src.GenPart;
@@ -63,6 +75,8 @@ panda::Event::operator=(Event const& _src)
   Muon = _src.Muon;
   Jet = _src.Jet;
   Photon = _src.Photon;
+  SV = _src.SV;
+  PV = _src.PV;
   GenMET = _src.GenMET;
   CaloMET = _src.CaloMET;
   ChsMET = _src.ChsMET;
@@ -70,6 +84,8 @@ panda::Event::operator=(Event const& _src)
   PuppiMET = _src.PuppiMET;
   RawMET = _src.RawMET;
   TkMET = _src.TkMET;
+  HLT = _src.HLT;
+  btagReweight = _src.btagReweight;
 
   return *this;
 }
@@ -88,6 +104,10 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   _out << "run = " << run << std::endl;
   _out << "luminosityBlock = " << luminosityBlock << std::endl;
   _out << "event = " << event << std::endl;
+  _out << "fixedGridRhoFastjetAll = " << fixedGridRhoFastjetAll << std::endl;
+  _out << "fixedGridRhoFastjetCentralCalo = " << fixedGridRhoFastjetCentralCalo << std::endl;
+  _out << "fixedGridRhoFastjetCentralNeutral = " << fixedGridRhoFastjetCentralNeutral << std::endl;
+  _out << "genWeight = " << genWeight << std::endl;
 
   Flag.dump(_out);
   GenPart.dump(_out);
@@ -95,6 +115,8 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   Muon.dump(_out);
   Jet.dump(_out);
   Photon.dump(_out);
+  SV.dump(_out);
+  PV.dump(_out);
   GenMET.dump(_out);
   CaloMET.dump(_out);
   ChsMET.dump(_out);
@@ -102,6 +124,8 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   PuppiMET.dump(_out);
   RawMET.dump(_out);
   TkMET.dump(_out);
+  HLT.dump(_out);
+  btagReweight.dump(_out);
 
 }
 /*static*/
@@ -109,7 +133,7 @@ panda::utils::BranchList
 panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
-  blist += {"run", "luminosityBlock", "event"};
+  blist += {"run", "luminosityBlock", "event", "fixedGridRhoFastjetAll", "fixedGridRhoFastjetCentralCalo", "fixedGridRhoFastjetCentralNeutral", "genWeight"};
   if (!_direct) {
     blist += Flags::getListOfBranches().fullNames("Flag");
     blist += GenPart::getListOfBranches().fullNames("GenPart");
@@ -117,6 +141,8 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += Muon::getListOfBranches().fullNames("Muon");
     blist += Jet::getListOfBranches().fullNames("Jet");
     blist += Photon::getListOfBranches().fullNames("Photon");
+    blist += SecondaryVertex::getListOfBranches().fullNames("SV");
+    blist += PrimaryVertex::getListOfBranches().fullNames("PV");
     blist += Met::getListOfBranches().fullNames("GenMET");
     blist += RecoMet::getListOfBranches().fullNames("CaloMET");
     blist += RecoMet::getListOfBranches().fullNames("ChsMET");
@@ -124,6 +150,8 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += RecoMet::getListOfBranches().fullNames("PuppiMET");
     blist += RecoMet::getListOfBranches().fullNames("RawMET");
     blist += RecoMet::getListOfBranches().fullNames("TkMET");
+    blist += Triggers::getListOfBranches().fullNames("HLT");
+    blist += BReweight::getListOfBranches().fullNames("btagReweight");
   }
   /* BEGIN CUSTOM Event.cc.getListOfBranches_ */
   /* END CUSTOM */
@@ -137,6 +165,10 @@ panda::Event::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
   utils::setStatus(_tree, "", "run", _branches);
   utils::setStatus(_tree, "", "luminosityBlock", _branches);
   utils::setStatus(_tree, "", "event", _branches);
+  utils::setStatus(_tree, "", "fixedGridRhoFastjetAll", _branches);
+  utils::setStatus(_tree, "", "fixedGridRhoFastjetCentralCalo", _branches);
+  utils::setStatus(_tree, "", "fixedGridRhoFastjetCentralNeutral", _branches);
+  utils::setStatus(_tree, "", "genWeight", _branches);
 }
 
 /*protected*/
@@ -148,6 +180,10 @@ panda::Event::doGetStatus_(TTree& _tree) const
   blist.push_back(utils::getStatus(_tree, "", "run"));
   blist.push_back(utils::getStatus(_tree, "", "luminosityBlock"));
   blist.push_back(utils::getStatus(_tree, "", "event"));
+  blist.push_back(utils::getStatus(_tree, "", "fixedGridRhoFastjetAll"));
+  blist.push_back(utils::getStatus(_tree, "", "fixedGridRhoFastjetCentralCalo"));
+  blist.push_back(utils::getStatus(_tree, "", "fixedGridRhoFastjetCentralNeutral"));
+  blist.push_back(utils::getStatus(_tree, "", "genWeight"));
   return blist;
 }
 
@@ -165,6 +201,10 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   utils::setAddress(_tree, "", "run", &run, _branches, _setStatus);
   utils::setAddress(_tree, "", "luminosityBlock", &luminosityBlock, _branches, _setStatus);
   utils::setAddress(_tree, "", "event", &event, _branches, _setStatus);
+  utils::setAddress(_tree, "", "fixedGridRhoFastjetAll", &fixedGridRhoFastjetAll, _branches, _setStatus);
+  utils::setAddress(_tree, "", "fixedGridRhoFastjetCentralCalo", &fixedGridRhoFastjetCentralCalo, _branches, _setStatus);
+  utils::setAddress(_tree, "", "fixedGridRhoFastjetCentralNeutral", &fixedGridRhoFastjetCentralNeutral, _branches, _setStatus);
+  utils::setAddress(_tree, "", "genWeight", &genWeight, _branches, _setStatus);
 }
 
 /*protected*/
@@ -174,6 +214,10 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   utils::book(_tree, "", "run", "", 'i', &run, _branches);
   utils::book(_tree, "", "luminosityBlock", "", 'i', &luminosityBlock, _branches);
   utils::book(_tree, "", "event", "", 'l', &event, _branches);
+  utils::book(_tree, "", "fixedGridRhoFastjetAll", "", 'F', &fixedGridRhoFastjetAll, _branches);
+  utils::book(_tree, "", "fixedGridRhoFastjetCentralCalo", "", 'F', &fixedGridRhoFastjetCentralCalo, _branches);
+  utils::book(_tree, "", "fixedGridRhoFastjetCentralNeutral", "", 'F', &fixedGridRhoFastjetCentralNeutral, _branches);
+  utils::book(_tree, "", "genWeight", "", 'F', &genWeight, _branches);
 }
 
 /*protected*/
@@ -190,6 +234,10 @@ panda::Event::doInit_()
   run = 0;
   luminosityBlock = 0;
   event = 0;
+  fixedGridRhoFastjetAll = 0.;
+  fixedGridRhoFastjetCentralCalo = 0.;
+  fixedGridRhoFastjetCentralNeutral = 0.;
+  genWeight = 0.;
   /* BEGIN CUSTOM Event.cc.doInit_ */
   /* END CUSTOM */
 }

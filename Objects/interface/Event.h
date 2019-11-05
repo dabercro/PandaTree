@@ -8,8 +8,12 @@
 #include "Muon.h"
 #include "Jet.h"
 #include "Photon.h"
+#include "SecondaryVertex.h"
+#include "PrimaryVertex.h"
 #include "Met.h"
 #include "RecoMet.h"
+#include "Triggers.h"
+#include "BReweight.h"
 
 namespace panda {
 
@@ -29,6 +33,8 @@ namespace panda {
     MuonCollection Muon = MuonCollection("Muon", 16);
     JetCollection Jet = JetCollection("Jet", 32);
     PhotonCollection Photon = PhotonCollection("Photon", 16);
+    SecondaryVertexCollection SV = SecondaryVertexCollection("SV", 32);
+    PrimaryVertex PV = PrimaryVertex("PV");
     Met GenMET = Met("GenMET");
     RecoMet CaloMET = RecoMet("CaloMET");
     RecoMet ChsMET = RecoMet("ChsMET");
@@ -36,10 +42,16 @@ namespace panda {
     RecoMet PuppiMET = RecoMet("PuppiMET");
     RecoMet RawMET = RecoMet("RawMET");
     RecoMet TkMET = RecoMet("TkMET");
+    Triggers HLT = Triggers("HLT");
+    BReweight btagReweight = BReweight("btagReweight");
 
     UInt_t run{};
     UInt_t luminosityBlock{};
     ULong64_t event{};
+    Float_t fixedGridRhoFastjetAll{};
+    Float_t fixedGridRhoFastjetCentralCalo{};
+    Float_t fixedGridRhoFastjetCentralNeutral{};
+    Float_t genWeight{};
 
     static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 

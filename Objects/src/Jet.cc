@@ -6,7 +6,7 @@ panda::Jet::getListOfBranches()
 {
   utils::BranchList blist;
   blist += RecoParticle::getListOfBranches();
-  blist += {"area", "bRegCorr", "bRegRes", "btagCMVA", "btagCSVV2", "btagDeepB", "btagDeepC", "btagDeepFlavB", "chEmEF", "chHEF", "muEF", "neEmEF", "neHEF", "qgl", "rawFactor", "jetId", "nConstituents", "nElectrons", "nMuons", "puId"};
+  blist += {"area", "bRegCorr", "bRegRes", "btagCMVA", "btagCSVV2", "btagDeepB", "btagDeepC", "btagDeepFlavB", "chEmEF", "chHEF", "muEF", "neEmEF", "neHEF", "qgl", "rawFactor", "jetId", "nConstituents", "nElectrons", "nMuons", "puId", "electronIdx1", "electronIdx2", "muonIdx1", "muonIdx2"};
   return blist;
 }
 
@@ -35,6 +35,10 @@ panda::Jet::datastore::allocate(UInt_t _nmax)
   nElectrons = new Int_t[nmax_];
   nMuons = new Int_t[nmax_];
   puId = new Int_t[nmax_];
+  electronIdx1 = new Int_t[nmax_];
+  electronIdx2 = new Int_t[nmax_];
+  muonIdx1 = new Int_t[nmax_];
+  muonIdx2 = new Int_t[nmax_];
 }
 
 void
@@ -82,6 +86,14 @@ panda::Jet::datastore::deallocate()
   nMuons = 0;
   delete [] puId;
   puId = 0;
+  delete [] electronIdx1;
+  electronIdx1 = 0;
+  delete [] electronIdx2;
+  electronIdx2 = 0;
+  delete [] muonIdx1;
+  muonIdx1 = 0;
+  delete [] muonIdx2;
+  muonIdx2 = 0;
 }
 
 void
@@ -109,6 +121,10 @@ panda::Jet::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bran
   utils::setStatus(_tree, _name, "nElectrons", _branches);
   utils::setStatus(_tree, _name, "nMuons", _branches);
   utils::setStatus(_tree, _name, "puId", _branches);
+  utils::setStatus(_tree, _name, "electronIdx1", _branches);
+  utils::setStatus(_tree, _name, "electronIdx2", _branches);
+  utils::setStatus(_tree, _name, "muonIdx1", _branches);
+  utils::setStatus(_tree, _name, "muonIdx2", _branches);
 }
 
 panda::utils::BranchList
@@ -136,6 +152,10 @@ panda::Jet::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "nElectrons"));
   blist.push_back(utils::getStatus(_tree, _name, "nMuons"));
   blist.push_back(utils::getStatus(_tree, _name, "puId"));
+  blist.push_back(utils::getStatus(_tree, _name, "electronIdx1"));
+  blist.push_back(utils::getStatus(_tree, _name, "electronIdx2"));
+  blist.push_back(utils::getStatus(_tree, _name, "muonIdx1"));
+  blist.push_back(utils::getStatus(_tree, _name, "muonIdx2"));
 
   return blist;
 }
@@ -165,6 +185,10 @@ panda::Jet::datastore::setAddress(TTree& _tree, TString const& _name, utils::Bra
   utils::setAddress(_tree, _name, "nElectrons", nElectrons, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nMuons", nMuons, _branches, _setStatus);
   utils::setAddress(_tree, _name, "puId", puId, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "electronIdx1", electronIdx1, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "electronIdx2", electronIdx2, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "muonIdx1", muonIdx1, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "muonIdx2", muonIdx2, _branches, _setStatus);
 }
 
 void
@@ -194,6 +218,10 @@ panda::Jet::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
   utils::book(_tree, _name, "nElectrons", size, 'I', nElectrons, _branches);
   utils::book(_tree, _name, "nMuons", size, 'I', nMuons, _branches);
   utils::book(_tree, _name, "puId", size, 'I', puId, _branches);
+  utils::book(_tree, _name, "electronIdx1", size, 'I', electronIdx1, _branches);
+  utils::book(_tree, _name, "electronIdx2", size, 'I', electronIdx2, _branches);
+  utils::book(_tree, _name, "muonIdx1", size, 'I', muonIdx1, _branches);
+  utils::book(_tree, _name, "muonIdx2", size, 'I', muonIdx2, _branches);
 }
 
 void
@@ -221,6 +249,10 @@ panda::Jet::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "nElectrons");
   utils::resetAddress(_tree, _name, "nMuons");
   utils::resetAddress(_tree, _name, "puId");
+  utils::resetAddress(_tree, _name, "electronIdx1");
+  utils::resetAddress(_tree, _name, "electronIdx2");
+  utils::resetAddress(_tree, _name, "muonIdx1");
+  utils::resetAddress(_tree, _name, "muonIdx2");
 }
 
 void
@@ -258,7 +290,11 @@ panda::Jet::Jet(char const* _name/* = ""*/) :
   nConstituents(gStore.getData(this).nConstituents[0]),
   nElectrons(gStore.getData(this).nElectrons[0]),
   nMuons(gStore.getData(this).nMuons[0]),
-  puId(gStore.getData(this).puId[0])
+  puId(gStore.getData(this).puId[0]),
+  electronIdx1(gStore.getData(this).electronIdx1[0]),
+  electronIdx2(gStore.getData(this).electronIdx2[0]),
+  muonIdx1(gStore.getData(this).muonIdx1[0]),
+  muonIdx2(gStore.getData(this).muonIdx2[0])
 {
 }
 
@@ -283,7 +319,11 @@ panda::Jet::Jet(Jet const& _src) :
   nConstituents(gStore.getData(this).nConstituents[0]),
   nElectrons(gStore.getData(this).nElectrons[0]),
   nMuons(gStore.getData(this).nMuons[0]),
-  puId(gStore.getData(this).puId[0])
+  puId(gStore.getData(this).puId[0]),
+  electronIdx1(gStore.getData(this).electronIdx1[0]),
+  electronIdx2(gStore.getData(this).electronIdx2[0]),
+  muonIdx1(gStore.getData(this).muonIdx1[0]),
+  muonIdx2(gStore.getData(this).muonIdx2[0])
 {
   operator=(_src);
 }
@@ -309,7 +349,11 @@ panda::Jet::Jet(datastore& _data, UInt_t _idx) :
   nConstituents(_data.nConstituents[_idx]),
   nElectrons(_data.nElectrons[_idx]),
   nMuons(_data.nMuons[_idx]),
-  puId(_data.puId[_idx])
+  puId(_data.puId[_idx]),
+  electronIdx1(_data.electronIdx1[_idx]),
+  electronIdx2(_data.electronIdx2[_idx]),
+  muonIdx1(_data.muonIdx1[_idx]),
+  muonIdx2(_data.muonIdx2[_idx])
 {
 }
 
@@ -334,7 +378,11 @@ panda::Jet::Jet(ArrayBase* _array) :
   nConstituents(gStore.getData(this).nConstituents[0]),
   nElectrons(gStore.getData(this).nElectrons[0]),
   nMuons(gStore.getData(this).nMuons[0]),
-  puId(gStore.getData(this).puId[0])
+  puId(gStore.getData(this).puId[0]),
+  electronIdx1(gStore.getData(this).electronIdx1[0]),
+  electronIdx2(gStore.getData(this).electronIdx2[0]),
+  muonIdx1(gStore.getData(this).muonIdx1[0]),
+  muonIdx2(gStore.getData(this).muonIdx2[0])
 {
 }
 
@@ -378,6 +426,10 @@ panda::Jet::operator=(Jet const& _src)
   nElectrons = _src.nElectrons;
   nMuons = _src.nMuons;
   puId = _src.puId;
+  electronIdx1 = _src.electronIdx1;
+  electronIdx2 = _src.electronIdx2;
+  muonIdx1 = _src.muonIdx1;
+  muonIdx2 = _src.muonIdx2;
 
   /* BEGIN CUSTOM Jet.cc.operator= */
   /* END CUSTOM */
@@ -410,6 +462,10 @@ panda::Jet::doBook_(TTree& _tree, TString const& _name, utils::BranchList const&
   utils::book(_tree, _name, "nElectrons", "", 'I', &nElectrons, _branches);
   utils::book(_tree, _name, "nMuons", "", 'I', &nMuons, _branches);
   utils::book(_tree, _name, "puId", "", 'I', &puId, _branches);
+  utils::book(_tree, _name, "electronIdx1", "", 'I', &electronIdx1, _branches);
+  utils::book(_tree, _name, "electronIdx2", "", 'I', &electronIdx2, _branches);
+  utils::book(_tree, _name, "muonIdx1", "", 'I', &muonIdx1, _branches);
+  utils::book(_tree, _name, "muonIdx2", "", 'I', &muonIdx2, _branches);
 }
 
 void
@@ -437,6 +493,10 @@ panda::Jet::doInit_()
   nElectrons = 0;
   nMuons = 0;
   puId = 0;
+  electronIdx1 = 0;
+  electronIdx2 = 0;
+  muonIdx1 = 0;
+  muonIdx2 = 0;
 
   /* BEGIN CUSTOM Jet.cc.doInit_ */
   /* END CUSTOM */
@@ -475,6 +535,10 @@ panda::Jet::dump(std::ostream& _out/* = std::cout*/) const
   _out << "nElectrons = " << nElectrons << std::endl;
   _out << "nMuons = " << nMuons << std::endl;
   _out << "puId = " << puId << std::endl;
+  _out << "electronIdx1 = " << electronIdx1 << std::endl;
+  _out << "electronIdx2 = " << electronIdx2 << std::endl;
+  _out << "muonIdx1 = " << muonIdx1 << std::endl;
+  _out << "muonIdx2 = " << muonIdx2 << std::endl;
 }
 
 /* BEGIN CUSTOM Jet.cc.global */
