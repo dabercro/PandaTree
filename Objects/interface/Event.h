@@ -43,7 +43,7 @@ namespace panda {
     RecoMet RawMET = RecoMet("RawMET");
     RecoMet TkMET = RecoMet("TkMET");
     Triggers HLT = Triggers("HLT");
-    BReweight btagReweight = BReweight("btagReweight");
+    BReweight btagWeight = BReweight("btagWeight");
 
     UInt_t run{};
     UInt_t luminosityBlock{};

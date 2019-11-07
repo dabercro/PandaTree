@@ -3,7 +3,7 @@
 panda::Event::Event() :
   TreeEntry()
 {
-  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &PV, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET, &HLT, &btagReweight}};
+  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &PV, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET, &HLT, &btagWeight}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon, &SV}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
@@ -29,7 +29,7 @@ panda::Event::Event(Event const& _src) :
   RawMET(_src.RawMET),
   TkMET(_src.TkMET),
   HLT(_src.HLT),
-  btagReweight(_src.btagReweight),
+  btagWeight(_src.btagWeight),
   run(_src.run),
   luminosityBlock(_src.luminosityBlock),
   event(_src.event),
@@ -38,7 +38,7 @@ panda::Event::Event(Event const& _src) :
   fixedGridRhoFastjetCentralNeutral(_src.fixedGridRhoFastjetCentralNeutral),
   genWeight(_src.genWeight)
 {
-  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &PV, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET, &HLT, &btagReweight}};
+  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &PV, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET, &HLT, &btagWeight}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon, &SV}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
@@ -85,7 +85,7 @@ panda::Event::operator=(Event const& _src)
   RawMET = _src.RawMET;
   TkMET = _src.TkMET;
   HLT = _src.HLT;
-  btagReweight = _src.btagReweight;
+  btagWeight = _src.btagWeight;
 
   return *this;
 }
@@ -125,7 +125,7 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   RawMET.dump(_out);
   TkMET.dump(_out);
   HLT.dump(_out);
-  btagReweight.dump(_out);
+  btagWeight.dump(_out);
 
 }
 /*static*/
@@ -151,7 +151,7 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += RecoMet::getListOfBranches().fullNames("RawMET");
     blist += RecoMet::getListOfBranches().fullNames("TkMET");
     blist += Triggers::getListOfBranches().fullNames("HLT");
-    blist += BReweight::getListOfBranches().fullNames("btagReweight");
+    blist += BReweight::getListOfBranches().fullNames("btagWeight");
   }
   /* BEGIN CUSTOM Event.cc.getListOfBranches_ */
   /* END CUSTOM */

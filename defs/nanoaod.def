@@ -838,7 +838,7 @@ PuppiMET/RecoMet
 RawMET/RecoMet
 TkMET/RecoMet
 HLT/Triggers
-btagReweight/BReweight
+btagWeight/BReweight
 % GenPart.genPartIdxMother->GenPart
 % Electron.jetIdx->Jet
 % Electron.genPartIdx->GenPart

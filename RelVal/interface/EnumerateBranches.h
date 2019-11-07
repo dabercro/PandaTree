@@ -2778,18 +2778,18 @@ namespace testpanda {
 
   template <>
   struct plotter <268> {
-    constexpr static const char* name = "btagReweight/CMVA";
+    constexpr static const char* name = "btagWeight/CMVA";
     std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.btagReweight.CMVA)};
+      std::vector<float> output {float(event.btagWeight.CMVA)};
       return output;
     }
   };
 
   template <>
   struct plotter <269> {
-    constexpr static const char* name = "btagReweight/CSVV2";
+    constexpr static const char* name = "btagWeight/CSVV2";
     std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.btagReweight.CSVV2)};
+      std::vector<float> output {float(event.btagWeight.CSVV2)};
       return output;
     }
   };
