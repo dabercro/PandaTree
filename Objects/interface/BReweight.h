@@ -24,7 +24,7 @@ namespace panda {
     void dump(std::ostream& = std::cout) const override;
 
     Float_t CSVV2{};
-    Float_t CMVA{};
+    Float_t DeepCSVB{};
 
     /* BEGIN CUSTOM BReweight.h.classdef */
     /* END CUSTOM */

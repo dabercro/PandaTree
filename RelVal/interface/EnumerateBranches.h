@@ -2778,9 +2778,9 @@ namespace testpanda {
 
   template <>
   struct plotter <268> {
-    constexpr static const char* name = "btagWeight/CMVA";
+    constexpr static const char* name = "btagWeight/DeepCSVB";
     std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.btagWeight.CMVA)};
+      std::vector<float> output {float(event.btagWeight.DeepCSVB)};
       return output;
     }
   };

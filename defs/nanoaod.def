@@ -812,7 +812,7 @@ Mu30_TkMu11/O
 
 [BReweight:SINGLE]
 CSVV2/F
-CMVA/F
+DeepCSVB/F
 
 {Event}
 run/i
