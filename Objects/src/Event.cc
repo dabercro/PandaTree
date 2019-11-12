@@ -3,9 +3,9 @@
 panda::Event::Event() :
   TreeEntry()
 {
-  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &PV, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET, &HLT, &btagWeight}};
+  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &FatJet, &SubJet, &PV, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET, &HLT, &btagWeight}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon, &SV}};
+  std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &FatJet, &SubJet}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
   /* BEGIN CUSTOM Event.cc.ctor */
   /* END CUSTOM */
@@ -20,6 +20,8 @@ panda::Event::Event(Event const& _src) :
   Jet(_src.Jet),
   Photon(_src.Photon),
   SV(_src.SV),
+  FatJet(_src.FatJet),
+  SubJet(_src.SubJet),
   PV(_src.PV),
   GenMET(_src.GenMET),
   CaloMET(_src.CaloMET),
@@ -38,9 +40,9 @@ panda::Event::Event(Event const& _src) :
   fixedGridRhoFastjetCentralNeutral(_src.fixedGridRhoFastjetCentralNeutral),
   genWeight(_src.genWeight)
 {
-  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &PV, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET, &HLT, &btagWeight}};
+  std::vector<Object*> myObjects{{&Flag, &GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &FatJet, &SubJet, &PV, &GenMET, &CaloMET, &ChsMET, &MET, &PuppiMET, &RawMET, &TkMET, &HLT, &btagWeight}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon, &SV}};
+  std::vector<CollectionBase*> myCollections{{&GenPart, &Electron, &Muon, &Jet, &Photon, &SV, &FatJet, &SubJet}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   /* BEGIN CUSTOM Event.cc.copy_ctor */
@@ -76,6 +78,8 @@ panda::Event::operator=(Event const& _src)
   Jet = _src.Jet;
   Photon = _src.Photon;
   SV = _src.SV;
+  FatJet = _src.FatJet;
+  SubJet = _src.SubJet;
   PV = _src.PV;
   GenMET = _src.GenMET;
   CaloMET = _src.CaloMET;
@@ -116,6 +120,8 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   Jet.dump(_out);
   Photon.dump(_out);
   SV.dump(_out);
+  FatJet.dump(_out);
+  SubJet.dump(_out);
   PV.dump(_out);
   GenMET.dump(_out);
   CaloMET.dump(_out);
@@ -142,6 +148,8 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += Jet::getListOfBranches().fullNames("Jet");
     blist += Photon::getListOfBranches().fullNames("Photon");
     blist += SecondaryVertex::getListOfBranches().fullNames("SV");
+    blist += FatJet::getListOfBranches().fullNames("FatJet");
+    blist += SubJet::getListOfBranches().fullNames("SubJet");
     blist += PrimaryVertex::getListOfBranches().fullNames("PV");
     blist += Met::getListOfBranches().fullNames("GenMET");
     blist += RecoMet::getListOfBranches().fullNames("CaloMET");

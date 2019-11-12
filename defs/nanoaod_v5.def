@@ -868,6 +868,8 @@ Muon/MuonCollection(16)
 Jet/JetCollection(32)
 Photon/PhotonCollection(16)
 SV/SecondaryVertexCollection(32)
+FatJet/FatJetCollection(8)
+SubJet/SubJetCollection(64)
 PV/PrimaryVertex
 GenMET/Met
 CaloMET/RecoMet
@@ -878,16 +880,3 @@ RawMET/RecoMet
 TkMET/RecoMet
 HLT/Triggers
 btagWeight/BReweight
-% GenPart.genPartIdxMother->GenPart
-% Electron.jetIdx->Jet
-% Electron.genPartIdx->GenPart
-% Electron.photonIdx->Photon
-% Muon.jetIdx->Jet
-% Muon.genPartIdx->GenPart
-% Photon.electronIdx->Electron
-% Photon.jetIdx->Jet
-% Photon.genPartIdx->GenPart
-% Jet.electronIdx1->Electron
-% Jet.electronIdx2->Electron
-% Jet.muonIdx1->Muon
-% Jet.muonIdx2->Muon

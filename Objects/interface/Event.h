@@ -9,6 +9,8 @@
 #include "Jet.h"
 #include "Photon.h"
 #include "SecondaryVertex.h"
+#include "FatJet.h"
+#include "SubJet.h"
 #include "PrimaryVertex.h"
 #include "Met.h"
 #include "RecoMet.h"
@@ -34,6 +36,8 @@ namespace panda {
     JetCollection Jet = JetCollection("Jet", 32);
     PhotonCollection Photon = PhotonCollection("Photon", 16);
     SecondaryVertexCollection SV = SecondaryVertexCollection("SV", 32);
+    FatJetCollection FatJet = FatJetCollection("FatJet", 8);
+    SubJetCollection SubJet = SubJetCollection("SubJet", 64);
     PrimaryVertex PV = PrimaryVertex("PV");
     Met GenMET = Met("GenMET");
     RecoMet CaloMET = RecoMet("CaloMET");
