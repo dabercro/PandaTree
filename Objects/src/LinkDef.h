@@ -12,6 +12,8 @@
 #include "PandaTree/Objects/interface/Electron.h"
 #include "PandaTree/Objects/interface/Muon.h"
 #include "PandaTree/Objects/interface/Jet.h"
+#include "PandaTree/Objects/interface/SubJet.h"
+#include "PandaTree/Objects/interface/FatJet.h"
 #include "PandaTree/Objects/interface/Triggers.h"
 #include "PandaTree/Objects/interface/BReweight.h"
 #include "PandaTree/Objects/interface/Event.h"
@@ -38,6 +40,8 @@
 #pragma link C++ class panda::Electron;
 #pragma link C++ class panda::Muon;
 #pragma link C++ class panda::Jet;
+#pragma link C++ class panda::SubJet;
+#pragma link C++ class panda::FatJet;
 #pragma link C++ class panda::Triggers;
 #pragma link C++ class panda::BReweight;
 #pragma link C++ class panda::Array<panda::Particle>;
@@ -80,6 +84,14 @@
 #pragma link C++ class panda::Collection<panda::Jet>;
 #pragma link C++ class panda::Ref<panda::Jet>;
 #pragma link C++ class panda::RefVector<panda::Jet>;
+#pragma link C++ class panda::Array<panda::SubJet>;
+#pragma link C++ class panda::Collection<panda::SubJet>;
+#pragma link C++ class panda::Ref<panda::SubJet>;
+#pragma link C++ class panda::RefVector<panda::SubJet>;
+#pragma link C++ class panda::Array<panda::FatJet>;
+#pragma link C++ class panda::Collection<panda::FatJet>;
+#pragma link C++ class panda::Ref<panda::FatJet>;
+#pragma link C++ class panda::RefVector<panda::FatJet>;
 #pragma link C++ typedef panda::ParticleArray;
 #pragma link C++ typedef panda::ParticleCollection;
 #pragma link C++ typedef panda::ParticleRef;
@@ -120,6 +132,14 @@
 #pragma link C++ typedef panda::JetCollection;
 #pragma link C++ typedef panda::JetRef;
 #pragma link C++ typedef panda::JetRefVector;
+#pragma link C++ typedef panda::SubJetArray;
+#pragma link C++ typedef panda::SubJetCollection;
+#pragma link C++ typedef panda::SubJetRef;
+#pragma link C++ typedef panda::SubJetRefVector;
+#pragma link C++ typedef panda::FatJetArray;
+#pragma link C++ typedef panda::FatJetCollection;
+#pragma link C++ typedef panda::FatJetRef;
+#pragma link C++ typedef panda::FatJetRefVector;
 #pragma link C++ class panda::Event;
 
 #endif
