@@ -11,6 +11,7 @@
 #include "SecondaryVertex.h"
 #include "FatJet.h"
 #include "SubJet.h"
+#include "Weight.h"
 #include "PrimaryVertex.h"
 #include "Met.h"
 #include "RecoMet.h"
@@ -38,6 +39,10 @@ namespace panda {
     SecondaryVertexCollection SV = SecondaryVertexCollection("SV", 32);
     FatJetCollection FatJet = FatJetCollection("FatJet", 8);
     SubJetCollection SubJet = SubJetCollection("SubJet", 64);
+    WeightCollection LHEPdfWeight = WeightCollection("LHEPdfWeight", 16);
+    WeightCollection LHEReweightingWeight = WeightCollection("LHEReweightingWeight", 16);
+    WeightCollection LHEScaleWeight = WeightCollection("LHEScaleWeight", 16);
+    WeightCollection PSWeight = WeightCollection("PSWeight", 16);
     PrimaryVertex PV = PrimaryVertex("PV");
     Met GenMET = Met("GenMET");
     RecoMet CaloMET = RecoMet("CaloMET");
@@ -56,6 +61,7 @@ namespace panda {
     Float_t fixedGridRhoFastjetCentralCalo{};
     Float_t fixedGridRhoFastjetCentralNeutral{};
     Float_t genWeight{};
+    Float_t LHEWeight_originalXWGTUP{};
 
     static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 

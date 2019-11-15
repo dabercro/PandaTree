@@ -16,6 +16,7 @@
 #include "PandaTree/Objects/interface/FatJet.h"
 #include "PandaTree/Objects/interface/Triggers.h"
 #include "PandaTree/Objects/interface/BReweight.h"
+#include "PandaTree/Objects/interface/Weight.h"
 #include "PandaTree/Objects/interface/Event.h"
 
 #ifdef __CLING__
@@ -44,6 +45,7 @@
 #pragma link C++ class panda::FatJet;
 #pragma link C++ class panda::Triggers;
 #pragma link C++ class panda::BReweight;
+#pragma link C++ class panda::Weight;
 #pragma link C++ class panda::Array<panda::Particle>;
 #pragma link C++ class panda::Collection<panda::Particle>;
 #pragma link C++ class panda::Ref<panda::Particle>;
@@ -92,6 +94,10 @@
 #pragma link C++ class panda::Collection<panda::FatJet>;
 #pragma link C++ class panda::Ref<panda::FatJet>;
 #pragma link C++ class panda::RefVector<panda::FatJet>;
+#pragma link C++ class panda::Array<panda::Weight>;
+#pragma link C++ class panda::Collection<panda::Weight>;
+#pragma link C++ class panda::Ref<panda::Weight>;
+#pragma link C++ class panda::RefVector<panda::Weight>;
 #pragma link C++ typedef panda::ParticleArray;
 #pragma link C++ typedef panda::ParticleCollection;
 #pragma link C++ typedef panda::ParticleRef;
@@ -140,6 +146,10 @@
 #pragma link C++ typedef panda::FatJetCollection;
 #pragma link C++ typedef panda::FatJetRef;
 #pragma link C++ typedef panda::FatJetRefVector;
+#pragma link C++ typedef panda::WeightArray;
+#pragma link C++ typedef panda::WeightCollection;
+#pragma link C++ typedef panda::WeightRef;
+#pragma link C++ typedef panda::WeightRefVector;
 #pragma link C++ class panda::Event;
 
 #endif

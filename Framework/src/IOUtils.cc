@@ -46,9 +46,10 @@ panda::utils::BranchName::operator TString() const
   for (unsigned iN(0); iN != size() - 1; ++iN)
     name += (*this)[iN] + separator;
 
-  name += back();
+  if (back() != "VAL")
+    name += back();
 
-  return name;
+  return name.Strip(TString::kTrailing, '_');
 }
 
 TString
@@ -73,7 +74,7 @@ panda::utils::BranchName::fullName(TString const& _objName/* = ""*/) const
     }
   }
 
-  return bFullName;
+  return bFullName.Strip(TString::kTrailing, '_');
 }
 
 bool
