@@ -11,6 +11,7 @@
 #include "SecondaryVertex.h"
 #include "FatJet.h"
 #include "SubJet.h"
+#include "GenJet.h"
 #include "Weight.h"
 #include "PrimaryVertex.h"
 #include "Met.h"
@@ -39,6 +40,7 @@ namespace panda {
     SecondaryVertexCollection SV = SecondaryVertexCollection("SV", 32);
     FatJetCollection FatJet = FatJetCollection("FatJet", 8);
     SubJetCollection SubJet = SubJetCollection("SubJet", 64);
+    GenJetCollection GenJet = GenJetCollection("GenJet", 64);
     WeightCollection LHEPdfWeight = WeightCollection("LHEPdfWeight", 16);
     WeightCollection LHEReweightingWeight = WeightCollection("LHEReweightingWeight", 16);
     WeightCollection LHEScaleWeight = WeightCollection("LHEScaleWeight", 16);

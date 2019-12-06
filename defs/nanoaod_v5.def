@@ -78,6 +78,10 @@ statusFlags/I
 genPartFlav/b
 genPartIdxMother/I
 
+[GenJet>Particle]
+partonFlavour/I
+hadronFlavour/b
+
 [Lepton>PFParticle]
 ip3d/F
 sip3d/F
@@ -936,6 +940,7 @@ Photon/PhotonCollection(16)
 SV/SecondaryVertexCollection(32)
 FatJet/FatJetCollection(8)
 SubJet/SubJetCollection(64)
+GenJet/GenJetCollection(64)
 LHEPdfWeight/WeightCollection(16)
 LHEReweightingWeight/WeightCollection(16)
 LHEScaleWeight/WeightCollection(16)

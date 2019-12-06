@@ -7,6 +7,7 @@
 #include "PandaTree/Objects/interface/RecoParticle.h"
 #include "PandaTree/Objects/interface/PFParticle.h"
 #include "PandaTree/Objects/interface/GenPart.h"
+#include "PandaTree/Objects/interface/GenJet.h"
 #include "PandaTree/Objects/interface/Lepton.h"
 #include "PandaTree/Objects/interface/Photon.h"
 #include "PandaTree/Objects/interface/Electron.h"
@@ -36,6 +37,7 @@
 #pragma link C++ class panda::RecoParticle;
 #pragma link C++ class panda::PFParticle;
 #pragma link C++ class panda::GenPart;
+#pragma link C++ class panda::GenJet;
 #pragma link C++ class panda::Lepton;
 #pragma link C++ class panda::Photon;
 #pragma link C++ class panda::Electron;
@@ -66,6 +68,10 @@
 #pragma link C++ class panda::Collection<panda::GenPart>;
 #pragma link C++ class panda::Ref<panda::GenPart>;
 #pragma link C++ class panda::RefVector<panda::GenPart>;
+#pragma link C++ class panda::Array<panda::GenJet>;
+#pragma link C++ class panda::Collection<panda::GenJet>;
+#pragma link C++ class panda::Ref<panda::GenJet>;
+#pragma link C++ class panda::RefVector<panda::GenJet>;
 #pragma link C++ class panda::Array<panda::Lepton>;
 #pragma link C++ class panda::Collection<panda::Lepton>;
 #pragma link C++ class panda::Ref<panda::Lepton>;
@@ -118,6 +124,10 @@
 #pragma link C++ typedef panda::GenPartCollection;
 #pragma link C++ typedef panda::GenPartRef;
 #pragma link C++ typedef panda::GenPartRefVector;
+#pragma link C++ typedef panda::GenJetArray;
+#pragma link C++ typedef panda::GenJetCollection;
+#pragma link C++ typedef panda::GenJetRef;
+#pragma link C++ typedef panda::GenJetRefVector;
 #pragma link C++ typedef panda::LeptonArray;
 #pragma link C++ typedef panda::LeptonCollection;
 #pragma link C++ typedef panda::LeptonRef;
